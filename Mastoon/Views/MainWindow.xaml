@@ -10,15 +10,23 @@
         mc:Ignorable="d"
         Title="MainWindow"
         Height="300"
-        Width="300">
+        Width="600">
     <i:Interaction.Triggers>
-        <Prism:InteractionRequestTrigger SourceObject="{Binding AlertRequest}">
+        <Prism:InteractionRequestTrigger SourceObject="{Binding PostRequest}">
             <Prism:PopupWindowAction />
         </Prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
-    <StackPanel>
-        <TextBox Text="{Binding Input, Mode=TwoWay}"/>
-        <Button Content="Alert"
-                Command="{Binding AlertCommand}"/>
-    </StackPanel>
+    <Grid Width="auto"
+          Height="25"
+          VerticalAlignment="Bottom">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="100" />
+        </Grid.ColumnDefinitions>
+        <TextBox Grid.Column="0"
+                 Text="{Binding Input, Mode=TwoWay}" />
+        <Button Grid.Column="1"
+                Content="投稿"
+                Command="{Binding PostCommand}" />
+    </Grid>
 </Window>

@@ -6,8 +6,8 @@ namespace Mastoon.ViewModels
 {
     class MainWindowViewModel : BindableBase
     {
-        public DelegateCommand AlertCommand { get; }
-        public InteractionRequest<INotification> AlertRequest { get; } = new InteractionRequest<INotification>();
+        public DelegateCommand PostCommand { get; }
+        public InteractionRequest<INotification> PostRequest { get; } = new InteractionRequest<INotification>();
 
         private string input;
         public string Input
@@ -18,11 +18,11 @@ namespace Mastoon.ViewModels
 
         public MainWindowViewModel()
         {
-            this.AlertCommand = new DelegateCommand(() =>
+            this.PostCommand = new DelegateCommand(() =>
             {
-                this.AlertRequest.Raise(new Notification
+                this.PostRequest.Raise(new Notification
                 {
-                    Title = "Alert",
+                    Title = "Post content",
                     Content = this.Input
                 });
             });
