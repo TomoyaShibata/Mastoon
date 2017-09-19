@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("Mastoon")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("BPS.LAB")]
 [assembly: AssemblyProduct("Mastoon")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright © TomoyaShibata 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
