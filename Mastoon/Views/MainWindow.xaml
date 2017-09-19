@@ -16,17 +16,23 @@
             <Prism:PopupWindowAction />
         </Prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
-    <Grid Width="auto"
-          Height="25"
-          VerticalAlignment="Bottom">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="100" />
-        </Grid.ColumnDefinitions>
-        <TextBox Grid.Column="0"
+    <DockPanel VerticalAlignment="Bottom">
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Text="Text" />
+            </StatusBarItem>
+        </StatusBar>
+        <Grid Width="auto"
+          Height="25">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0"
                  Text="{Binding Input, Mode=TwoWay}" />
-        <Button Grid.Column="1"
+            <Button Grid.Column="1"
                 Content="投稿"
                 Command="{Binding PostCommand}" />
-    </Grid>
+        </Grid>
+    </DockPanel>
 </Window>
