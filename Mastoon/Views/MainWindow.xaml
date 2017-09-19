@@ -5,12 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mastoon.Views"
         xmlns:Prism="http://prismlibrary.com/"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         Prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="300"
         Width="300">
-    <Grid>
-
-    </Grid>
+    <i:Interaction.Triggers>
+        <Prism:InteractionRequestTrigger SourceObject="{Binding AlertRequest}">
+            <Prism:PopupWindowAction />
+        </Prism:InteractionRequestTrigger>
+    </i:Interaction.Triggers>
+    <StackPanel>
+        <TextBox Text="{Binding Input, Mode=TwoWay}"/>
+        <Button Content="Alert"
+                Command="{Binding AlertCommand}"/>
+    </StackPanel>
 </Window>
