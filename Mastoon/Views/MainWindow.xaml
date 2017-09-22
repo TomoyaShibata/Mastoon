@@ -10,20 +10,45 @@
         mc:Ignorable="d"
         Title="MainWindow"
         Height="700"
-        Width="800"
-        d:DataContext="{d:DesignData }">
+        Width="800" d:DataContext="{d:DesignData }">
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Control"
+                    Key="O"
+                    Command="{Binding CustomCommand}" />
+    </Window.InputBindings>
     <i:Interaction.Triggers>
         <Prism:InteractionRequestTrigger SourceObject="{Binding PostRequest}">
             <Prism:PopupWindowAction />
         </Prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
     <DockPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Text="Text" />
+            </StatusBarItem>
+        </StatusBar>
+
+        <Grid DockPanel.Dock="Bottom"
+              Width="auto"
+              Height="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0"
+                     Text="{Binding Input, Mode=TwoWay}" />
+            <Button Grid.Column="1"
+                    Content="投稿"
+                    Command="{Binding PostStatusCommand}" />
+        </Grid>
+
         <DataGrid DockPanel.Dock="Top"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding Statuses}"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
-                  Height="500"
+                  Height="auto"
                   Width="auto"
+                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                   IsReadOnly="True"
                   CanUserSortColumns="False"
                   CanUserAddRows="False"
@@ -51,23 +76,5 @@
                                     Binding="{Binding Application.Name}" />
             </DataGrid.Columns>
         </DataGrid>
-        <Grid DockPanel.Dock="Top"
-              Width="auto"
-              Height="25">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="100" />
-            </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0"
-                     Text="{Binding Input, Mode=TwoWay}" />
-            <Button Grid.Column="1"
-                    Content="投稿"
-                    Command="{Binding PostStatusCommand}" />
-        </Grid>
-        <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem>
-                <TextBlock Text="Text" />
-            </StatusBarItem>
-        </StatusBar>
     </DockPanel>
 </Window>
