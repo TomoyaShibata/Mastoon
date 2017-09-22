@@ -48,7 +48,7 @@
                      Text="{Binding Input, Mode=TwoWay}" />
             <Button Grid.Column="1"
                     Content="投稿"
-                    Command="{Binding PostCommand}" />
+                    Command="{Binding PostStatusCommand}" />
         </Grid>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
