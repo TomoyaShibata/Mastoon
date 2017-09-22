@@ -34,10 +34,18 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
             <TextBox Grid.Column="0"
-                     Text="{Binding Input, Mode=TwoWay}" />
-            <Button Grid.Column="1"
+                     Text="{Binding PostStatus.Value, Mode=TwoWay}" />
+            <ComboBox Grid.Column="1"
+                      SelectedIndex="0">
+                <ComboBoxItem Content="公開" />
+                <ComboBoxItem Content="未収録" />
+                <ComboBoxItem Content="非公開" />
+                <ComboBoxItem Content="ダイレクト" />
+            </ComboBox>
+            <Button Grid.Column="2"
                     Content="投稿"
                     Command="{Binding PostStatusCommand}" />
         </Grid>
