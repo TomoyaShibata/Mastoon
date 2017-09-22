@@ -10,7 +10,8 @@
         mc:Ignorable="d"
         Title="MainWindow"
         Height="700"
-        Width="800" d:DataContext="{d:DesignData }">
+        Width="800"
+        d:DataContext="{d:DesignData }">
     <i:Interaction.Triggers>
         <Prism:InteractionRequestTrigger SourceObject="{Binding PostRequest}">
             <Prism:PopupWindowAction />
@@ -23,7 +24,18 @@
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
                   Height="500"
                   Width="auto"
-                  CanUserSortColumns="False">
+                  IsReadOnly="True"
+                  CanUserSortColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  CanUserReorderColumns="False"
+                  CanUserResizeRows="False"
+                  Background="#002b36"
+                  BorderBrush="#002b36"
+                  RowBackground="#073642"
+                  Foreground="#839496"
+                  VerticalGridLinesBrush="#002b36"
+                  HorizontalGridLinesBrush="#002b36">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="" />
                 <DataGridTextColumn Header="名前"
