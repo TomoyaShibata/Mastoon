@@ -22,7 +22,8 @@
                   ItemsSource="{Binding Statuses}"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
                   Height="500"
-                  Width="auto">
+                  Width="auto"
+                  CanUserSortColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="" />
                 <DataGridTextColumn Header="名前"
