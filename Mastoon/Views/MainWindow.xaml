@@ -9,30 +9,51 @@
         Prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="MainWindow"
-        Height="300"
-        Width="600">
+        Height="500"
+        Width="600" d:DataContext="{d:DesignData }">
     <i:Interaction.Triggers>
         <Prism:InteractionRequestTrigger SourceObject="{Binding PostRequest}">
             <Prism:PopupWindowAction />
         </Prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
-    <DockPanel VerticalAlignment="Bottom">
-        <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem>
-                <TextBlock Text="Text" />
-            </StatusBarItem>
-        </StatusBar>
-        <Grid Width="auto"
-          Height="25">
+    <DockPanel>
+        <DataGrid DockPanel.Dock="Top"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding Statuses}"
+                  VirtualizingStackPanel.VirtualizationMode="Recycling"
+                  Height="500"
+                  Width="auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="" />
+                <DataGridTextColumn Header="名前"
+                                    Binding="{Binding Account.DisplayName}" />
+                <DataGridTextColumn Header="投稿"
+                                    Binding="{Binding Content}" />
+                <DataGridTextColumn Header="日時"
+                                    Binding="{Binding CreatedAt}" />
+                <DataGridTextColumn Header="ユーザー名"
+                                    Binding="{Binding Account.UserName}" />
+                <DataGridTextColumn Header="発信元"
+                                    Binding="{Binding Application.Name}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid DockPanel.Dock="Top"
+              Width="auto"
+              Height="25">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
             <TextBox Grid.Column="0"
-                 Text="{Binding Input, Mode=TwoWay}" />
+                     Text="{Binding Input, Mode=TwoWay}" />
             <Button Grid.Column="1"
-                Content="投稿"
-                Command="{Binding PostCommand}" />
+                    Content="投稿"
+                    Command="{Binding PostCommand}" />
         </Grid>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Text="Text" />
+            </StatusBarItem>
+        </StatusBar>
     </DockPanel>
 </Window>
