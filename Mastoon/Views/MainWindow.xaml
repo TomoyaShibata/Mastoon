@@ -9,8 +9,8 @@
         Prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="MainWindow"
-        Height="500"
-        Width="600" d:DataContext="{d:DesignData }">
+        Height="700"
+        Width="800" d:DataContext="{d:DesignData }">
     <i:Interaction.Triggers>
         <Prism:InteractionRequestTrigger SourceObject="{Binding PostRequest}">
             <Prism:PopupWindowAction />
@@ -28,9 +28,10 @@
                 <DataGridTextColumn Header="名前"
                                     Binding="{Binding Account.DisplayName}" />
                 <DataGridTextColumn Header="投稿"
+                                    Width="300"
                                     Binding="{Binding Content}" />
                 <DataGridTextColumn Header="日時"
-                                    Binding="{Binding CreatedAt}" />
+                                    Binding="{Binding CreatedAt, StringFormat=yyyy/MM/dd HH:mm:ss}" />
                 <DataGridTextColumn Header="ユーザー名"
                                     Binding="{Binding Account.UserName}" />
                 <DataGridTextColumn Header="発信元"
