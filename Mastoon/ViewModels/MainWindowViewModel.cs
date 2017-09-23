@@ -27,6 +27,7 @@ namespace Mastoon.ViewModels
         public ReactiveProperty<Object> SelectedItem { get; set; } = new ReactiveProperty<Object>();
         public ReactiveCollection<Status> Statuses { get; } = new ReactiveCollection<Status>();
         public ReactiveProperty<string> PostStatus { get; set; } = new ReactiveProperty<string>();
+        public ReactiveProperty<int> SelectedItemVisibility { get; set; } = new ReactiveProperty<int>();
 
         private MastodonClient _mastodonClient;
 
@@ -68,9 +69,10 @@ namespace Mastoon.ViewModels
         {
             if (string.IsNullOrWhiteSpace(this.PostStatus.Value)) return;
 
+
             await this._mastodonClient.PostStatus(
                 this.PostStatus.Value,
-                Visibility.Public
+                this.GetPostStatusVisibility()
             );
 
             this.PostStatus.Value = "";
@@ -79,6 +81,18 @@ namespace Mastoon.ViewModels
         public void OpenStatus()
         {
             Console.WriteLine("");
+        }
+
+        private Visibility GetPostStatusVisibility()
+        {
+            switch (this.SelectedItemVisibility.Value)
+            {
+                case 0: return Visibility.Public;
+                case 1: return Visibility.Unlisted;
+                case 2: return Visibility.Private;
+                case 3: return Visibility.Direct;
+                default: return Visibility.Public;
+            }
         }
     }
 }

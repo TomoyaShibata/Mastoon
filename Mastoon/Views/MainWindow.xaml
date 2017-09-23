@@ -39,7 +39,7 @@
             <TextBox Grid.Column="0"
                      Text="{Binding PostStatus.Value, Mode=TwoWay}" />
             <ComboBox Grid.Column="1"
-                      SelectedIndex="0">
+                      SelectedIndex="{Binding SelectedItemVisibility.Value}">
                 <ComboBoxItem Content="公開" />
                 <ComboBoxItem Content="未収録" />
                 <ComboBoxItem Content="非公開" />
