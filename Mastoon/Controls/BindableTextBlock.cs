@@ -5,6 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
+using Mastoon.ViewModels;
+using Reactive.Bindings;
 
 // Original Source Code
 // https://github.com/Grabacr07/MetroRadiance/blob/develop/source/MetroRadiance/UI/Controls/BindableTextBlock.cs
@@ -46,11 +48,16 @@ namespace Mastoon.Controls
 
         #endregion
 
-
         public BindableTextBlock()
         {
             this.TextTemplates = new DataTemplateCollection();
-            this.Loaded += (sender, e) => this.Update();
+            this.Loaded += (sender, e) =>
+            {
+                // TODO:ReactivePropety 依存なので直す
+                ((ReactiveCollection<BindableTextViewModel>) this.TextSource).CollectionChanged +=
+                    (_sender, _e) => this.Update();
+                this.Update();
+            };
         }
 
         private IEnumerable<InlineHolder> CreateTemplateInstance(IEnumerable<object> textSourcePart)
