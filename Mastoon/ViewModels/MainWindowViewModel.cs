@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Mastonet;
 using Mastonet.Entities;
+using Mastoon.Models;
 using Microsoft.Practices.ObjectBuilder2;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -13,6 +14,9 @@ namespace Mastoon.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
+        private HomeTimelineModel _homeTimelineModel;
+        public ReadOnlyReactiveCollection<Status> HomeTimelineStatuses { get; private set; }
+
         public DelegateCommand CustomCommand { get; }
 
         public ReactiveProperty<int> SelectedStatusIndex { get; set; } = new ReactiveProperty<int>();
@@ -51,6 +55,9 @@ namespace Mastoon.ViewModels
             var auth = await authClient.ConnectWithPassword("",
                 "");
             this._mastodonClient = new MastodonClient(appRegistration, auth);
+
+            this._homeTimelineModel = new HomeTimelineModel(this._mastodonClient);
+            this.HomeTimelineStatuses = this._homeTimelineModel.HomeTimelineStatuses.ToReadOnlyReactiveCollection();
 
             this.GetFirstPageTimelineAsync();
             this.StartGetPublicStreamingAsync();

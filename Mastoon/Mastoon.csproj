@@ -159,6 +159,7 @@
       <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -189,6 +190,8 @@
     <Compile Include="Controls\BindableTextBlock.cs" />
     <Compile Include="Controls\HyperLinkEx.cs" />
     <Compile Include="Conveters\DataGridContentConveter.cs" />
+    <Compile Include="Conveters\StatusCreatedAtConveter.cs" />
+    <Compile Include="Models\HomeTimelineModel.cs" />
     <Compile Include="ViewModels\BindableTextViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
