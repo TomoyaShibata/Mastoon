@@ -107,47 +107,53 @@
             </controls:BindableTextBlock>
         </DockPanel>
 
-        <DataGrid Name="DataGrid"
-                  DockPanel.Dock="Top"
-                  AutoGenerateColumns="False"
-                  ItemsSource="{Binding Statuses}"
-                  VirtualizingStackPanel.VirtualizationMode="Recycling"
-                  Height="auto"
-                  Width="auto"
-                  SelectedIndex="{Binding SelectedStatusIndex.Value, Mode=TwoWay}"
-                  SelectedItem="{Binding SelectedStatus.Value, Mode=TwoWay}"
-                  IsReadOnly="True"
-                  CanUserSortColumns="False"
-                  CanUserAddRows="False"
-                  CanUserDeleteRows="False"
-                  CanUserReorderColumns="False"
-                  CanUserResizeRows="False"
-                  Background="#002b36"
-                  BorderBrush="#002b36"
-                  RowBackground="#073642"
-                  Foreground="#839496"
-                  VerticalGridLinesBrush="#002b36"
-                  HorizontalGridLinesBrush="#002b36">
-            <DataGrid.InputBindings>
-                <KeyBinding Key="J"
-                            Command="{Binding SelectedStatusIncrementCommand}" />
-                <KeyBinding Key="K"
-                            Command="{Binding SelectedStatusDecrementCommand}" />
-            </DataGrid.InputBindings>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="" />
-                <DataGridTextColumn Header="名前"
-                                    Binding="{Binding Account.DisplayName}" />
-                <DataGridTextColumn Header="投稿"
-                                    Width="300"
-                                    Binding="{Binding Content, Converter={StaticResource DataGridContentConveter}}" />
-                <DataGridTextColumn Header="日時"
-                                    Binding="{Binding CreatedAt, StringFormat=yyyy/MM/dd HH:mm:ss}" />
-                <DataGridTextColumn Header="ユーザー名"
-                                    Binding="{Binding Account.UserName}" />
-                <DataGridTextColumn Header="発信元"
-                                    Binding="{Binding Application.Name}" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <TabControl DockPanel.Dock="Bottom">
+            <TabItem Header="ホーム" />
+            <TabItem Header="通知" />
+            <TabItem Header="ローカル" />
+            <TabItem Header="連合">
+                <DataGrid Name="DataGrid"
+                          AutoGenerateColumns="False"
+                          ItemsSource="{Binding Statuses}"
+                          VirtualizingStackPanel.VirtualizationMode="Recycling"
+                          Height="auto"
+                          Width="auto"
+                          SelectedIndex="{Binding SelectedStatusIndex.Value, Mode=TwoWay}"
+                          SelectedItem="{Binding SelectedStatus.Value, Mode=TwoWay}"
+                          IsReadOnly="True"
+                          CanUserSortColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          CanUserReorderColumns="False"
+                          CanUserResizeRows="False"
+                          Background="#002b36"
+                          BorderBrush="#002b36"
+                          RowBackground="#073642"
+                          Foreground="#839496"
+                          VerticalGridLinesBrush="#002b36"
+                          HorizontalGridLinesBrush="#002b36">
+                    <DataGrid.InputBindings>
+                        <KeyBinding Key="J"
+                                    Command="{Binding SelectedStatusIncrementCommand}" />
+                        <KeyBinding Key="K"
+                                    Command="{Binding SelectedStatusDecrementCommand}" />
+                    </DataGrid.InputBindings>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="" />
+                        <DataGridTextColumn Header="名前"
+                                            Binding="{Binding Account.DisplayName}" />
+                        <DataGridTextColumn Header="投稿"
+                                            Width="300"
+                                            Binding="{Binding Content, Converter={StaticResource DataGridContentConveter}}" />
+                        <DataGridTextColumn Header="日時"
+                                            Binding="{Binding CreatedAt, StringFormat=yyyy/MM/dd HH:mm:ss}" />
+                        <DataGridTextColumn Header="ユーザー名"
+                                            Binding="{Binding Account.UserName}" />
+                        <DataGridTextColumn Header="発信元"
+                                            Binding="{Binding Application.Name}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
     </DockPanel>
 </Window>
