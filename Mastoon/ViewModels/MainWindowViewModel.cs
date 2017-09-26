@@ -16,8 +16,8 @@ namespace Mastoon.ViewModels
 
         public ReactiveProperty<int> SelectedStatusIndex { get; set; } = new ReactiveProperty<int>();
         public ReactiveProperty<Status> SelectedStatus { get; set; } = new ReactiveProperty<Status>();
-        public ReactiveCommand SelectedStatusIncrementCommand { get; set; } = new ReactiveCommand();
-        public ReactiveCommand SelectedStatusDecrementCommand { get; set; } = new ReactiveCommand();
+        public ReactiveCommand SelectedStatusIncrementCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand SelectedStatusDecrementCommand { get; } = new ReactiveCommand();
 
         public ReactiveCollection<BindableTextViewModel> Contents { get; set; } =
             new ReactiveCollection<BindableTextViewModel>();
@@ -26,7 +26,7 @@ namespace Mastoon.ViewModels
 
         public ReactiveProperty<string> PostStatus { get; set; } = new ReactiveProperty<string>();
         public ReactiveProperty<int> SelectedItemVisibility { get; set; } = new ReactiveProperty<int>();
-        public ReactiveCommand PostStatusCommand { get; private set; } = new ReactiveCommand();
+        public ReactiveCommand PostStatusCommand { get; } = new ReactiveCommand();
 
         private MastodonClient _mastodonClient;
 
