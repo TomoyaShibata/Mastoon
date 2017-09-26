@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Mastonet;
 using Mastonet.Entities;
 using Microsoft.Practices.ObjectBuilder2;
@@ -10,7 +11,7 @@ using Reactive.Bindings;
 
 namespace Mastoon.ViewModels
 {
-    internal class MainWindowViewModel : BindableBase
+    public class MainWindowViewModel : BindableBase
     {
         public DelegateCommand CustomCommand { get; }
         public DelegateCommand PostStatusCommand { get; }
@@ -24,7 +25,11 @@ namespace Mastoon.ViewModels
             set => this.SetProperty(ref this._input, value);
         }
 
-        public ReactiveProperty<Object> SelectedItem { get; set; } = new ReactiveProperty<Object>();
+        public ReactiveProperty<Status> SelectedStatus { get; set; } = new ReactiveProperty<Status>();
+
+        public ReactiveCollection<BindableTextViewModel> Contents { get; set; } =
+            new ReactiveCollection<BindableTextViewModel>();
+
         public ReactiveCollection<Status> Statuses { get; } = new ReactiveCollection<Status>();
         public ReactiveProperty<string> PostStatus { get; set; } = new ReactiveProperty<string>();
         public ReactiveProperty<int> SelectedItemVisibility { get; set; } = new ReactiveProperty<int>();
@@ -35,6 +40,8 @@ namespace Mastoon.ViewModels
         {
             this.CustomCommand = new DelegateCommand(this.OpenStatus);
             this.PostStatusCommand = new DelegateCommand(this.PostStatusAsync);
+
+            this.SelectedStatus.PropertyChanged += (sender, e) => this.ShowSelectedStatus();
 
             this.SetupMastodonClient();
         }
@@ -81,6 +88,21 @@ namespace Mastoon.ViewModels
         public void OpenStatus()
         {
             Console.WriteLine("");
+        }
+
+        private void ShowSelectedStatus()
+        {
+            this.Contents.Clear();
+
+            var html = this.SelectedStatus.Value.Content;
+            var regex = new Regex("<.*?>");
+            var splitedHtml = regex.Split(html);
+
+            var hoge = new ReactiveCollection<BindableTextViewModel>();
+            splitedHtml.ForEach(s =>
+            {
+                this.Contents.Add(new BindableTextViewModel {Text = new ReactiveProperty<string>(s)});
+            });
         }
 
         private Visibility GetPostStatusVisibility()

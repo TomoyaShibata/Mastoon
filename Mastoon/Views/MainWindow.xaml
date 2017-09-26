@@ -6,11 +6,17 @@
         xmlns:local="clr-namespace:Mastoon.Views"
         xmlns:Prism="http://prismlibrary.com/"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:controls="clr-namespace:Mastoon.Controls"
+        xmlns:viewModels="clr-namespace:Mastoon.ViewModels"
+        xmlns:conveters="clr-namespace:Mastoon.Conveters"
         Prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="700"
         Width="800" d:DataContext="{d:DesignData }">
+    <Window.Resources>
+        <conveters:DataGridContentConveter x:Key="DataGridContentConveter" />
+    </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Modifiers="Control"
                     Key="O"
@@ -50,13 +56,38 @@
                     Command="{Binding PostStatusCommand}" />
         </Grid>
 
-        <DataGrid DockPanel.Dock="Top"
+        <DockPanel DockPanel.Dock="Bottom"
+                   Height="80">
+            <controls:BindableTextBlock x:Name="BindableTextBlock"
+                                        DockPanel.Dock="Top"
+                                        TextWrapping="WrapWithOverflow"
+                                        TextSource="{Binding Contents, Mode=TwoWay}">
+                <controls:BindableTextBlock.TextTemplates>
+                    <DataTemplate DataType="{x:Type viewModels:BindableTextViewModel}">
+                        <controls:InlineHolder>
+                            <Run Text="{Binding Text.Value, Mode=TwoWay}" />
+                        </controls:InlineHolder>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type viewModels:HyperlinkViewModel}">
+                        <controls:InlineHolder>
+                            <controls:HyperlinkEx Uri="{Binding Uri.Value, Mode=TwoWay}">
+                                <Run Text="{Binding Text.Value, Mode=TwoWay}" />
+                            </controls:HyperlinkEx>
+                        </controls:InlineHolder>
+                    </DataTemplate>
+                </controls:BindableTextBlock.TextTemplates>
+            </controls:BindableTextBlock>
+        </DockPanel>
+
+        <DataGrid Name="DataGrid"
+                  DockPanel.Dock="Top"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding Statuses}"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
                   Height="auto"
                   Width="auto"
-                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                  SelectedItem="{Binding SelectedStatus.Value, Mode=TwoWay}"
                   IsReadOnly="True"
                   CanUserSortColumns="False"
                   CanUserAddRows="False"
@@ -75,7 +106,7 @@
                                     Binding="{Binding Account.DisplayName}" />
                 <DataGridTextColumn Header="投稿"
                                     Width="300"
-                                    Binding="{Binding Content}" />
+                                    Binding="{Binding Content, Converter={StaticResource DataGridContentConveter}}" />
                 <DataGridTextColumn Header="日時"
                                     Binding="{Binding CreatedAt, StringFormat=yyyy/MM/dd HH:mm:ss}" />
                 <DataGridTextColumn Header="ユーザー名"
