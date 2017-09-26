@@ -5,7 +5,6 @@ using Mastonet;
 using Mastonet.Entities;
 using Microsoft.Practices.ObjectBuilder2;
 using Prism.Commands;
-using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 using Reactive.Bindings;
 
@@ -14,16 +13,6 @@ namespace Mastoon.ViewModels
     public class MainWindowViewModel : BindableBase
     {
         public DelegateCommand CustomCommand { get; }
-        public DelegateCommand PostStatusCommand { get; }
-        public InteractionRequest<INotification> PostRequest { get; } = new InteractionRequest<INotification>();
-
-        private string _input;
-
-        public string Input
-        {
-            get => this._input;
-            set => this.SetProperty(ref this._input, value);
-        }
 
         public ReactiveProperty<int> SelectedStatusIndex { get; set; } = new ReactiveProperty<int>();
         public ReactiveProperty<Status> SelectedStatus { get; set; } = new ReactiveProperty<Status>();
@@ -34,8 +23,10 @@ namespace Mastoon.ViewModels
             new ReactiveCollection<BindableTextViewModel>();
 
         public ReactiveCollection<Status> Statuses { get; } = new ReactiveCollection<Status>();
+
         public ReactiveProperty<string> PostStatus { get; set; } = new ReactiveProperty<string>();
         public ReactiveProperty<int> SelectedItemVisibility { get; set; } = new ReactiveProperty<int>();
+        public ReactiveCommand PostStatusCommand { get; private set; } = new ReactiveCommand();
 
         private MastodonClient _mastodonClient;
 
@@ -44,7 +35,7 @@ namespace Mastoon.ViewModels
             this.CustomCommand = new DelegateCommand(this.OpenStatus);
             this.SelectedStatusIncrementCommand.Subscribe(this.SelectedStatusIndexIncrement);
             this.SelectedStatusDecrementCommand.Subscribe(this.SelectedStatusIndexDecrement);
-            this.PostStatusCommand = new DelegateCommand(this.PostStatusAsync);
+            this.PostStatusCommand.Subscribe(this.PostStatusAsync);
 
             this.SelectedStatus.PropertyChanged += (sender, e) => this.ShowSelectedStatus();
 
