@@ -16,6 +16,7 @@
         Width="800" d:DataContext="{d:DesignData }">
     <Window.Resources>
         <conveters:DataGridContentConveter x:Key="DataGridContentConveter" />
+        <conveters:StatusCreatedAtConveter x:Key="StatusCreatedAtConveter" />
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Modifiers="Control"
@@ -73,7 +74,7 @@
             <TextBlock DockPanel.Dock="Right"
                        Background="#002b36"
                        Foreground="#fff"
-                       Text="{Binding SelectedStatus.Value.CreatedAt, StringFormat=yyyy/MM/dd HH:mm:ss}" />
+                       Text="{Binding SelectedStatus.Value.CreatedAt, Converter={StaticResource StatusCreatedAtConveter}}" />
 
             <TextBlock DockPanel.Dock="Top"
                        Background="#002b36"
@@ -146,7 +147,7 @@
                                             Width="300"
                                             Binding="{Binding Content, Converter={StaticResource DataGridContentConveter}}" />
                         <DataGridTextColumn Header="日時"
-                                            Binding="{Binding CreatedAt, StringFormat=yyyy/MM/dd HH:mm:ss}" />
+                                            Binding="{Binding CreatedAt, Converter={StaticResource StatusCreatedAtConveter}}" />
                         <DataGridTextColumn Header="ユーザー名"
                                             Binding="{Binding Account.UserName}" />
                         <DataGridTextColumn Header="発信元"
