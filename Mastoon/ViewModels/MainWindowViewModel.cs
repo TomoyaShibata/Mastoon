@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Mastonet;
@@ -87,7 +87,8 @@ namespace Mastoon.ViewModels
 
         public void OpenStatus()
         {
-            Console.WriteLine("");
+            if (this.SelectedStatus.Value == null) return;
+            Process.Start(this.SelectedStatus.Value.Url);
         }
 
         private void ShowSelectedStatus()
