@@ -58,8 +58,35 @@
 
         <DockPanel DockPanel.Dock="Bottom"
                    Height="80">
+
+            <Border DockPanel.Dock="Left"
+                    Background="#002b36"
+                    Padding="10">
+                <Image Width="48"
+                       Height="48"
+                       Source="{Binding SelectedStatus.Value.Account.AvatarUrl}" />
+            </Border>
+
+            <Image DockPanel.Dock="Right"
+                   Source="{Binding SelectedStatus.Value.MediaAttachments[0].PreviewUrl}" />
+
+            <TextBlock DockPanel.Dock="Right"
+                       Background="#002b36"
+                       Foreground="#fff"
+                       Text="{Binding SelectedStatus.Value.CreatedAt, StringFormat=yyyy/MM/dd HH:mm:ss}" />
+
+            <TextBlock DockPanel.Dock="Top"
+                       Background="#002b36"
+                       Foreground="#fff">
+                <Run Text="{Binding SelectedStatus.Value.Account.DisplayName}" />
+                /
+                <Run Text="{Binding SelectedStatus.Value.Account.AccountName}" />
+            </TextBlock>
+
             <controls:BindableTextBlock x:Name="BindableTextBlock"
-                                        DockPanel.Dock="Top"
+                                        DockPanel.Dock="Right"
+                                        Background="#073642"
+                                        Foreground="#fff"
                                         TextWrapping="WrapWithOverflow"
                                         TextSource="{Binding Contents, Mode=TwoWay}">
                 <controls:BindableTextBlock.TextTemplates>
