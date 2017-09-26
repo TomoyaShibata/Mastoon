@@ -25,7 +25,10 @@ namespace Mastoon.ViewModels
             set => this.SetProperty(ref this._input, value);
         }
 
+        public ReactiveProperty<int> SelectedStatusIndex { get; set; } = new ReactiveProperty<int>();
         public ReactiveProperty<Status> SelectedStatus { get; set; } = new ReactiveProperty<Status>();
+        public ReactiveCommand SelectedStatusIncrementCommand { get; set; } = new ReactiveCommand();
+        public ReactiveCommand SelectedStatusDecrementCommand { get; set; } = new ReactiveCommand();
 
         public ReactiveCollection<BindableTextViewModel> Contents { get; set; } =
             new ReactiveCollection<BindableTextViewModel>();
@@ -39,6 +42,8 @@ namespace Mastoon.ViewModels
         public MainWindowViewModel()
         {
             this.CustomCommand = new DelegateCommand(this.OpenStatus);
+            this.SelectedStatusIncrementCommand.Subscribe(this.SelectedStatusIndexIncrement);
+            this.SelectedStatusDecrementCommand.Subscribe(this.SelectedStatusIndexDecrement);
             this.PostStatusCommand = new DelegateCommand(this.PostStatusAsync);
 
             this.SelectedStatus.PropertyChanged += (sender, e) => this.ShowSelectedStatus();
@@ -89,6 +94,16 @@ namespace Mastoon.ViewModels
         {
             if (this.SelectedStatus.Value == null) return;
             Process.Start(this.SelectedStatus.Value.Url);
+        }
+
+        private void SelectedStatusIndexIncrement()
+        {
+            if (this.Statuses.Count - 1 > this.SelectedStatusIndex.Value) this.SelectedStatusIndex.Value++;
+        }
+
+        private void SelectedStatusIndexDecrement()
+        {
+            if (0 < this.SelectedStatusIndex.Value) this.SelectedStatusIndex.Value--;
         }
 
         private void ShowSelectedStatus()
