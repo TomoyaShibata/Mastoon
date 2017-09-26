@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Mastonet;
@@ -102,6 +103,7 @@ namespace Mastoon.ViewModels
             this.Contents.Clear();
 
             var html = this.SelectedStatus.Value.Content;
+            html = html.Replace("<br />", Environment.NewLine);
             var regex = new Regex("<.*?>");
             var splitedHtml = regex.Split(html);
 
