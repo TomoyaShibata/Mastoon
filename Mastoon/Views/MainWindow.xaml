@@ -4,12 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mastoon.Views"
-        xmlns:Prism="http://prismlibrary.com/"
+        xmlns:prism="http://prismlibrary.com/"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:controls="clr-namespace:Mastoon.Controls"
         xmlns:viewModels="clr-namespace:Mastoon.ViewModels"
         xmlns:conveters="clr-namespace:Mastoon.Conveters"
-        Prism:ViewModelLocator.AutoWireViewModel="True"
+        prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="700"
@@ -24,9 +24,9 @@
                     Command="{Binding CustomCommand}" />
     </Window.InputBindings>
     <i:Interaction.Triggers>
-        <Prism:InteractionRequestTrigger SourceObject="{Binding PostRequest}">
-            <Prism:PopupWindowAction />
-        </Prism:InteractionRequestTrigger>
+        <prism:InteractionRequestTrigger SourceObject="{Binding PostRequest}">
+            <prism:PopupWindowAction />
+        </prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom">
