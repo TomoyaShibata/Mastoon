@@ -6,6 +6,5 @@ namespace Mastoon.Models
     {
         void SetupTimelineModel(MastodonClient mastodonClient);
         void GetFirstPageTimelineAsync();
-        void StartStreamingTimelineAsync();
     }
 }

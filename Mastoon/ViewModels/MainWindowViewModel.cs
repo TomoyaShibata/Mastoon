@@ -18,6 +18,10 @@ namespace Mastoon.ViewModels
         public ReadOnlyReactiveCollection<Status> HomeTimelineStatuses { get; }
         public ReactiveProperty<int> SelectedHomeTimelineStatusIndex { get; set; }
 
+        private readonly FavoriteTimelineModel _favoriteTimelineModel = new FavoriteTimelineModel();
+        public ReadOnlyReactiveCollection<Status> FavoriteTimelineStatuses { get; }
+        public ReactiveProperty<int> SelectedFavoriteTimelineStatusIndex { get; set; }
+
         private readonly PublimeTimelineModel _publicTimelineModel = new PublimeTimelineModel();
         public ReadOnlyReactiveCollection<Status> PubliceTimelineStatuses { get; }
         public ReactiveProperty<int> SelectedStatusIndex { get; set; } = new ReactiveProperty<int>();
@@ -46,6 +50,8 @@ namespace Mastoon.ViewModels
             this.SetupMastodonClient();
 
             this.HomeTimelineStatuses = this._homeTimelineModel.HomeTimelineStatuses.ToReadOnlyReactiveCollection();
+            this.FavoriteTimelineStatuses =
+                this._favoriteTimelineModel.FavoriteTimelineStatuses.ToReadOnlyReactiveCollection();
             this.PubliceTimelineStatuses =
                 this._publicTimelineModel.PublicTimelineStatuses.ToReadOnlyReactiveCollection();
             this.PostStatusContent = this._statusPostModel.ToReactivePropertyAsSynchronized(x => x.Content);
@@ -71,6 +77,7 @@ namespace Mastoon.ViewModels
             this._mastodonClient = new MastodonClient(appRegistration, auth);
 
             this._homeTimelineModel.SetupTimelineModel(this._mastodonClient);
+            this._favoriteTimelineModel.SetupTimelineModel(this._mastodonClient);
             this._publicTimelineModel.SetupTimelineModel(this._mastodonClient);
             this._statusPostModel.SetupStatusPostModel(this._mastodonClient);
         }
