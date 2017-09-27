@@ -128,16 +128,52 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="" />
                         <DataGridTextColumn Header="名前"
-                                            Binding="{Binding Account.DisplayName}" />
+                                            Width="100"
+                                            Binding="{Binding Account.DisplayName}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextTrimming"
+                                            Value="CharacterEllipsis" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn Header="投稿"
                                             Width="300"
-                                            Binding="{Binding Content, Converter={StaticResource DataGridContentConveter}}" />
+                                            Binding="{Binding Content, Converter={StaticResource DataGridContentConveter}}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextTrimming"
+                                            Value="CharacterEllipsis" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn Header="日時"
-                                            Binding="{Binding CreatedAt, Converter={StaticResource StatusCreatedAtConveter}}" />
+                                            Binding="{Binding CreatedAt, Converter={StaticResource StatusCreatedAtConveter}}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextTrimming"
+                                            Value="CharacterEllipsis" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn Header="ユーザー名"
-                                            Binding="{Binding Account.UserName}" />
+                                            Binding="{Binding Account.UserName}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextTrimming"
+                                            Value="CharacterEllipsis" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn Header="発信元"
-                                            Binding="{Binding Application.Name}" />
+                                            Binding="{Binding Application.Name}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextTrimming"
+                                            Value="CharacterEllipsis" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
@@ -173,16 +209,52 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="" />
                         <DataGridTextColumn Header="名前"
-                                            Binding="{Binding Account.DisplayName}" />
+                                            Width="100"
+                                            Binding="{Binding Account.DisplayName}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextTrimming"
+                                            Value="CharacterEllipsis" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn Header="投稿"
                                             Width="300"
-                                            Binding="{Binding Content, Converter={StaticResource DataGridContentConveter}}" />
+                                            Binding="{Binding Content, Converter={StaticResource DataGridContentConveter}}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextTrimming"
+                                            Value="CharacterEllipsis" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn Header="日時"
-                                            Binding="{Binding CreatedAt, Converter={StaticResource StatusCreatedAtConveter}}" />
+                                            Binding="{Binding CreatedAt, Converter={StaticResource StatusCreatedAtConveter}}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextTrimming"
+                                            Value="CharacterEllipsis" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn Header="ユーザー名"
-                                            Binding="{Binding Account.UserName}" />
+                                            Binding="{Binding Account.UserName}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextTrimming"
+                                            Value="CharacterEllipsis" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn Header="発信元"
-                                            Binding="{Binding Application.Name}" />
+                                            Binding="{Binding Application.Name}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextTrimming"
+                                            Value="CharacterEllipsis" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
