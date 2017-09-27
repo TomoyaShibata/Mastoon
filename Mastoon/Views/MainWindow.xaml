@@ -150,7 +150,7 @@
             <TabItem Header="連合">
                 <DataGrid Name="DataGrid"
                           AutoGenerateColumns="False"
-                          ItemsSource="{Binding Statuses}"
+                          ItemsSource="{Binding PubliceTimelineStatuses}"
                           VirtualizingStackPanel.VirtualizationMode="Recycling"
                           Height="auto"
                           Width="auto"

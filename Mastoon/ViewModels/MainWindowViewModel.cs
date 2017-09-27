@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Text.RegularExpressions;
 using Mastonet;
 using Mastonet.Entities;
@@ -18,10 +17,12 @@ namespace Mastoon.ViewModels
         public ReadOnlyReactiveCollection<Status> HomeTimelineStatuses { get; }
         public ReactiveProperty<int> SelectedHomeTimelineStatusIndex { get; set; }
 
-        public DelegateCommand CustomCommand { get; }
-
+        private readonly PublimeTimelineModel _publicTimelineModel = new PublimeTimelineModel();
+        public ReadOnlyReactiveCollection<Status> PubliceTimelineStatuses { get; }
         public ReactiveProperty<int> SelectedStatusIndex { get; set; } = new ReactiveProperty<int>();
         public ReactiveProperty<Status> SelectedStatus { get; set; } = new ReactiveProperty<Status>();
+
+        public DelegateCommand CustomCommand { get; }
         public ReactiveCommand SelectedStatusIncrementCommand { get; } = new ReactiveCommand();
         public ReactiveCommand SelectedStatusDecrementCommand { get; } = new ReactiveCommand();
 
@@ -41,6 +42,8 @@ namespace Mastoon.ViewModels
             this.SetupMastodonClient();
 
             this.HomeTimelineStatuses = this._homeTimelineModel.HomeTimelineStatuses.ToReadOnlyReactiveCollection();
+            this.PubliceTimelineStatuses =
+                this._publicTimelineModel.PublicTimelineStatuses.ToReadOnlyReactiveCollection();
 
             this.CustomCommand = new DelegateCommand(this.OpenStatus);
             this.SelectedStatusIncrementCommand.Subscribe(this.SelectedStatusIndexIncrement);
@@ -60,26 +63,7 @@ namespace Mastoon.ViewModels
             this._mastodonClient = new MastodonClient(appRegistration, auth);
 
             this._homeTimelineModel.SetupTimelineModel(this._mastodonClient);
-            this.SetupPublicTimeline();
-        }
-
-        private void SetupPublicTimeline()
-        {
-            this.GetFirstPageTimelineAsync();
-            this.StartGetPublicStreamingAsync();
-        }
-
-        public async void GetFirstPageTimelineAsync()
-        {
-            var result = await this._mastodonClient.GetPublicTimeline();
-            result.Reverse().ForEach(r => this.Statuses.Add(r));
-        }
-
-        public async void StartGetPublicStreamingAsync()
-        {
-            var streaming = this._mastodonClient.GetPublicStreaming();
-            streaming.OnUpdate += (sender, e) => this.Statuses.Insert(this.Statuses.Count, e.Status);
-            await streaming.Start();
+            this._publicTimelineModel.SetupTimelineModel(this._mastodonClient);
         }
 
         public async void PostStatusAsync()
