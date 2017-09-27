@@ -8,6 +8,7 @@ using Microsoft.Practices.ObjectBuilder2;
 using Prism.Commands;
 using Prism.Mvvm;
 using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace Mastoon.ViewModels
 {
@@ -22,6 +23,8 @@ namespace Mastoon.ViewModels
         public ReactiveProperty<int> SelectedStatusIndex { get; set; } = new ReactiveProperty<int>();
         public ReactiveProperty<Status> SelectedStatus { get; set; } = new ReactiveProperty<Status>();
 
+        private readonly StatusPostModel _statusPostModel = new StatusPostModel();
+
         public DelegateCommand CustomCommand { get; }
         public ReactiveCommand SelectedStatusIncrementCommand { get; } = new ReactiveCommand();
         public ReactiveCommand SelectedStatusDecrementCommand { get; } = new ReactiveCommand();
@@ -31,8 +34,9 @@ namespace Mastoon.ViewModels
 
         public ReactiveCollection<Status> Statuses { get; } = new ReactiveCollection<Status>();
 
-        public ReactiveProperty<string> PostStatus { get; set; } = new ReactiveProperty<string>();
-        public ReactiveProperty<int> SelectedItemVisibility { get; set; } = new ReactiveProperty<int>();
+        public ReactiveProperty<string> PostStatusContent { get; set; }
+        public ReadOnlyReactiveCollection<string> VisibilityTexts { get; }
+        public ReactiveProperty<int> SelectedVisibilityIndex { get; }
         public ReactiveCommand PostStatusCommand { get; } = new ReactiveCommand();
 
         private MastodonClient _mastodonClient;
@@ -44,11 +48,15 @@ namespace Mastoon.ViewModels
             this.HomeTimelineStatuses = this._homeTimelineModel.HomeTimelineStatuses.ToReadOnlyReactiveCollection();
             this.PubliceTimelineStatuses =
                 this._publicTimelineModel.PublicTimelineStatuses.ToReadOnlyReactiveCollection();
+            this.PostStatusContent = this._statusPostModel.ToReactivePropertyAsSynchronized(x => x.Content);
+            this.VisibilityTexts = this._statusPostModel.VisibilityTexts.ToReadOnlyReactiveCollection();
+            this.SelectedVisibilityIndex =
+                this._statusPostModel.ToReactivePropertyAsSynchronized(x => x.SelectedVisibilityIndex);
 
             this.CustomCommand = new DelegateCommand(this.OpenStatus);
             this.SelectedStatusIncrementCommand.Subscribe(this.SelectedStatusIndexIncrement);
             this.SelectedStatusDecrementCommand.Subscribe(this.SelectedStatusIndexDecrement);
-            this.PostStatusCommand.Subscribe(this.PostStatusAsync);
+            this.PostStatusCommand.Subscribe(this.PostStatus);
 
             this.SelectedStatus.PropertyChanged += (sender, e) => this.ShowSelectedStatus();
         }
@@ -64,20 +72,10 @@ namespace Mastoon.ViewModels
 
             this._homeTimelineModel.SetupTimelineModel(this._mastodonClient);
             this._publicTimelineModel.SetupTimelineModel(this._mastodonClient);
+            this._statusPostModel.SetupStatusPostModel(this._mastodonClient);
         }
 
-        public async void PostStatusAsync()
-        {
-            if (string.IsNullOrWhiteSpace(this.PostStatus.Value)) return;
-
-
-            await this._mastodonClient.PostStatus(
-                this.PostStatus.Value,
-                this.GetPostStatusVisibility()
-            );
-
-            this.PostStatus.Value = "";
-        }
+        public void PostStatus() => this._statusPostModel.PostStatusAsync();
 
         public void OpenStatus()
         {
@@ -109,18 +107,6 @@ namespace Mastoon.ViewModels
             {
                 this.Contents.Add(new BindableTextViewModel {Text = new ReactiveProperty<string>(s)});
             });
-        }
-
-        private Visibility GetPostStatusVisibility()
-        {
-            switch (this.SelectedItemVisibility.Value)
-            {
-                case 0: return Visibility.Public;
-                case 1: return Visibility.Unlisted;
-                case 2: return Visibility.Private;
-                case 3: return Visibility.Direct;
-                default: return Visibility.Public;
-            }
         }
     }
 }

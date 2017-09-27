@@ -44,14 +44,10 @@
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
             <TextBox Grid.Column="0"
-                     Text="{Binding PostStatus.Value, Mode=TwoWay}" />
+                     Text="{Binding PostStatusContent.Value, Mode=TwoWay}" />
             <ComboBox Grid.Column="1"
-                      SelectedIndex="{Binding SelectedItemVisibility.Value}">
-                <ComboBoxItem Content="公開" />
-                <ComboBoxItem Content="未収録" />
-                <ComboBoxItem Content="非公開" />
-                <ComboBoxItem Content="ダイレクト" />
-            </ComboBox>
+                      ItemsSource="{Binding VisibilityTexts}"
+                      SelectedIndex="{Binding SelectedVisibilityIndex.Value}" />
             <Button Grid.Column="2"
                     Content="投稿"
                     Command="{Binding PostStatusCommand}" />
