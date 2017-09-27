@@ -18,14 +18,16 @@ namespace Mastoon.ViewModels
         public ReadOnlyReactiveCollection<Status> HomeTimelineStatuses { get; }
         public ReactiveProperty<int> SelectedHomeTimelineStatusIndex { get; set; }
 
-        private readonly FavoriteTimelineModel _favoriteTimelineModel = new FavoriteTimelineModel();
+        private readonly FavouriteTimelineModel _favouriteTimelineModel = new FavouriteTimelineModel();
         public ReadOnlyReactiveCollection<Status> FavoriteTimelineStatuses { get; }
         public ReactiveProperty<int> SelectedFavoriteTimelineStatusIndex { get; set; }
 
         private readonly PublimeTimelineModel _publicTimelineModel = new PublimeTimelineModel();
         public ReadOnlyReactiveCollection<Status> PubliceTimelineStatuses { get; }
         public ReactiveProperty<int> SelectedStatusIndex { get; set; } = new ReactiveProperty<int>();
+
         public ReactiveProperty<Status> SelectedStatus { get; set; } = new ReactiveProperty<Status>();
+        public ReactiveCommand ToggleFavouriteCommand { get; } = new ReactiveCommand();
 
         private readonly StatusPostModel _statusPostModel = new StatusPostModel();
 
@@ -51,7 +53,7 @@ namespace Mastoon.ViewModels
 
             this.HomeTimelineStatuses = this._homeTimelineModel.HomeTimelineStatuses.ToReadOnlyReactiveCollection();
             this.FavoriteTimelineStatuses =
-                this._favoriteTimelineModel.FavoriteTimelineStatuses.ToReadOnlyReactiveCollection();
+                this._favouriteTimelineModel.FavouriteTimelineStatuses.ToReadOnlyReactiveCollection();
             this.PubliceTimelineStatuses =
                 this._publicTimelineModel.PublicTimelineStatuses.ToReadOnlyReactiveCollection();
             this.PostStatusContent = this._statusPostModel.ToReactivePropertyAsSynchronized(x => x.Content);
@@ -60,6 +62,8 @@ namespace Mastoon.ViewModels
                 this._statusPostModel.ToReactivePropertyAsSynchronized(x => x.SelectedVisibilityIndex);
 
             this.CustomCommand = new DelegateCommand(this.OpenStatus);
+            this.ToggleFavouriteCommand.Subscribe(() =>
+                this._favouriteTimelineModel.ToggleFavourite(this.SelectedStatus.Value));
             this.SelectedStatusIncrementCommand.Subscribe(this.SelectedStatusIndexIncrement);
             this.SelectedStatusDecrementCommand.Subscribe(this.SelectedStatusIndexDecrement);
             this.PostStatusCommand.Subscribe(this.PostStatus);
@@ -77,7 +81,7 @@ namespace Mastoon.ViewModels
             this._mastodonClient = new MastodonClient(appRegistration, auth);
 
             this._homeTimelineModel.SetupTimelineModel(this._mastodonClient);
-            this._favoriteTimelineModel.SetupTimelineModel(this._mastodonClient);
+            this._favouriteTimelineModel.SetupTimelineModel(this._mastodonClient);
             this._publicTimelineModel.SetupTimelineModel(this._mastodonClient);
             this._statusPostModel.SetupStatusPostModel(this._mastodonClient);
         }

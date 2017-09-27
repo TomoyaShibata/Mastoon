@@ -11,7 +11,7 @@
         xmlns:conveters="clr-namespace:Mastoon.Conveters"
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="Mastoon"
         Height="700"
         Width="800" d:DataContext="{d:DesignData }">
     <Window.Resources>
@@ -105,6 +105,12 @@
         </DockPanel>
 
         <TabControl DockPanel.Dock="Bottom">
+            <TabControl.InputBindings>
+                <KeyBinding Key="S"
+                            Modifiers="Control"
+                            Command="{Binding ToggleFavouriteCommand}" />
+            </TabControl.InputBindings>
+
             <TabItem Header="ホーム">
                 <DataGrid AutoGenerateColumns="False"
                           ItemsSource="{Binding HomeTimelineStatuses}"
@@ -180,7 +186,7 @@
             <TabItem Header="通知" />
             <TabItem Header="お気に入り">
                 <DataGrid AutoGenerateColumns="False"
-                          ItemsSource="{Binding FavoriteTimelineStatuses}"
+                          ItemsSource="{Binding FavouriteTimelineStatuses}"
                           VirtualizingStackPanel.VirtualizationMode="Recycling"
                           Height="auto"
                           Width="auto"
