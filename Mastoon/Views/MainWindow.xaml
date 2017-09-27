@@ -115,6 +115,8 @@
                           VirtualizingStackPanel.VirtualizationMode="Recycling"
                           Height="auto"
                           Width="auto"
+                          SelectedIndex="{Binding SelectedHomeTimelineStatusIndex.Value, Mode=TwoWay}"
+                          SelectedItem="{Binding SelectedStatus.Value, Mode=TwoWay}"
                           IsReadOnly="True"
                           CanUserSortColumns="False"
                           CanUserAddRows="False"

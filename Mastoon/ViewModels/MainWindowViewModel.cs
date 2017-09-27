@@ -14,8 +14,9 @@ namespace Mastoon.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        private HomeTimelineModel _homeTimelineModel;
-        public ReadOnlyReactiveCollection<Status> HomeTimelineStatuses { get; private set; }
+        private readonly HomeTimelineModel _homeTimelineModel = new HomeTimelineModel();
+        public ReadOnlyReactiveCollection<Status> HomeTimelineStatuses { get; }
+        public ReactiveProperty<int> SelectedHomeTimelineStatusIndex { get; set; }
 
         public DelegateCommand CustomCommand { get; }
 
@@ -37,14 +38,16 @@ namespace Mastoon.ViewModels
 
         public MainWindowViewModel()
         {
+            this.SetupMastodonClient();
+
+            this.HomeTimelineStatuses = this._homeTimelineModel.HomeTimelineStatuses.ToReadOnlyReactiveCollection();
+
             this.CustomCommand = new DelegateCommand(this.OpenStatus);
             this.SelectedStatusIncrementCommand.Subscribe(this.SelectedStatusIndexIncrement);
             this.SelectedStatusDecrementCommand.Subscribe(this.SelectedStatusIndexDecrement);
             this.PostStatusCommand.Subscribe(this.PostStatusAsync);
 
             this.SelectedStatus.PropertyChanged += (sender, e) => this.ShowSelectedStatus();
-
-            this.SetupMastodonClient();
         }
 
         private async void SetupMastodonClient()
@@ -56,9 +59,12 @@ namespace Mastoon.ViewModels
                 "");
             this._mastodonClient = new MastodonClient(appRegistration, auth);
 
-            this._homeTimelineModel = new HomeTimelineModel(this._mastodonClient);
-            this.HomeTimelineStatuses = this._homeTimelineModel.HomeTimelineStatuses.ToReadOnlyReactiveCollection();
+            this._homeTimelineModel.SetupTimelineModel(this._mastodonClient);
+            this.SetupPublicTimeline();
+        }
 
+        private void SetupPublicTimeline()
+        {
             this.GetFirstPageTimelineAsync();
             this.StartGetPublicStreamingAsync();
         }
