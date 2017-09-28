@@ -34,5 +34,13 @@ namespace Mastoon.Models
                 this.HomeTimelineStatuses.Insert(this.HomeTimelineStatuses.Count, e.Status);
             await streaming.Start();
         }
+
+        public void UpdateStatus(Status status)
+        {
+            var statusId = status.Reblog.Id;
+
+            var indexOf = this.HomeTimelineStatuses.IndexOf(this.HomeTimelineStatuses.Single(s => s.Id == statusId));
+            this.HomeTimelineStatuses[indexOf] = status;
+        }
     }
 }

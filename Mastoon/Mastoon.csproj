@@ -191,6 +191,8 @@
     <Compile Include="Controls\HyperLinkEx.cs" />
     <Compile Include="Conveters\DataGridContentConveter.cs" />
     <Compile Include="Conveters\StatusCreatedAtConveter.cs" />
+    <Compile Include="Conveters\StatusForgroundConveter.cs" />
+    <Compile Include="Models\ReblogModel.cs" />
     <Compile Include="Models\FavouriteTimelineModel.cs" />
     <Compile Include="Models\HomeTimelineModel.cs" />
     <Compile Include="Models\ITimelineModel.cs" />

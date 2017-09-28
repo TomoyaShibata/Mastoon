@@ -27,6 +27,10 @@ namespace Mastoon.ViewModels
         public ReactiveProperty<int> SelectedStatusIndex { get; set; } = new ReactiveProperty<int>();
 
         public ReactiveProperty<Status> SelectedStatus { get; set; } = new ReactiveProperty<Status>();
+
+        private readonly ReblogModel _reblogModel = new ReblogModel();
+
+        public ReactiveCommand ToggleReblogCommand { get; } = new ReactiveCommand();
         public ReactiveCommand ToggleFavouriteCommand { get; } = new ReactiveCommand();
 
         private readonly StatusPostModel _statusPostModel = new StatusPostModel();
@@ -61,6 +65,12 @@ namespace Mastoon.ViewModels
             this.SelectedVisibilityIndex =
                 this._statusPostModel.ToReactivePropertyAsSynchronized(x => x.SelectedVisibilityIndex);
 
+            this.ToggleReblogCommand.Subscribe(() =>
+                this._reblogModel.ToggleReblog(
+                    this.SelectedStatus.Value.Id,
+                    this.SelectedStatus.Value.Reblogged ?? false)
+            );
+
             this.CustomCommand = new DelegateCommand(this.OpenStatus);
             this.ToggleFavouriteCommand.Subscribe(() =>
                 this._favouriteTimelineModel.ToggleFavourite(this.SelectedStatus.Value));
@@ -84,6 +94,9 @@ namespace Mastoon.ViewModels
             this._favouriteTimelineModel.SetupTimelineModel(this._mastodonClient);
             this._publicTimelineModel.SetupTimelineModel(this._mastodonClient);
             this._statusPostModel.SetupStatusPostModel(this._mastodonClient);
+            this._reblogModel.SetupMastodonModel(this._mastodonClient);
+
+            this.ReblogModelPropetyChanged();
         }
 
         public void PostStatus() => this._statusPostModel.PostStatusAsync();
@@ -106,6 +119,7 @@ namespace Mastoon.ViewModels
 
         private void ShowSelectedStatus()
         {
+            if (this.SelectedStatus.Value == null) return;
             this.Contents.Clear();
 
             var html = this.SelectedStatus.Value.Content;
@@ -118,6 +132,23 @@ namespace Mastoon.ViewModels
             {
                 this.Contents.Add(new BindableTextViewModel {Text = new ReactiveProperty<string>(s)});
             });
+        }
+
+        private void ReblogModelPropetyChanged()
+        {
+
+
+            this._reblogModel.PropertyChanged += (sender, args) =>
+            {
+                var reblogModel = (ReblogModel) sender;
+                Console.WriteLine(this._reblogModel.Number);
+                this.UpdateAllTimelineStatus(reblogModel.NewStatus);
+            };
+        }
+
+        private void UpdateAllTimelineStatus(Status status)
+        {
+            this._homeTimelineModel.UpdateStatus(status);
         }
     }
 }
