@@ -35,6 +35,12 @@ namespace Mastoon.Models
             await streaming.Start();
         }
 
+        public async void GetPrevPageTimelineAsync()
+        {
+            var result = await this._mastodonClient.GetHomeTimeline(maxId: this.HomeTimelineStatuses[0].Id);
+            result.ForEach(r => this.HomeTimelineStatuses.Insert(0, r));
+        }
+
         public void UpdateStatus(Status status)
         {
             var statusId = status.Reblog.Id;

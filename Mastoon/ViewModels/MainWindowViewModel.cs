@@ -30,6 +30,7 @@ namespace Mastoon.ViewModels
 
         private readonly ReblogModel _reblogModel = new ReblogModel();
 
+        public ReactiveCommand GetPrevPageHomeTimelineCommand { get; } = new ReactiveCommand();
         public ReactiveCommand ToggleReblogCommand { get; } = new ReactiveCommand();
         public ReactiveCommand ToggleFavouriteCommand { get; } = new ReactiveCommand();
 
@@ -64,6 +65,8 @@ namespace Mastoon.ViewModels
             this.VisibilityTexts = this._statusPostModel.VisibilityTexts.ToReadOnlyReactiveCollection();
             this.SelectedVisibilityIndex =
                 this._statusPostModel.ToReactivePropertyAsSynchronized(x => x.SelectedVisibilityIndex);
+
+            this.GetPrevPageHomeTimelineCommand.Subscribe(this._homeTimelineModel.GetPrevPageTimelineAsync);
 
             this.ToggleReblogCommand.Subscribe(() =>
                 this._reblogModel.ToggleReblog(
@@ -136,8 +139,6 @@ namespace Mastoon.ViewModels
 
         private void ReblogModelPropetyChanged()
         {
-
-
             this._reblogModel.PropertyChanged += (sender, args) =>
             {
                 var reblogModel = (ReblogModel) sender;

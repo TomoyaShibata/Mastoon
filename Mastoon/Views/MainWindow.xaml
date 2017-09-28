@@ -191,6 +191,8 @@
                         <ContextMenu>
                             <MenuItem Header="ブーストする"
                                       Command="{Binding ToggleReblogCommand}" />
+                            <MenuItem Header="前トゥートを取得する"
+                                      Command="{Binding GetPrevPageHomeTimelineCommand}" />
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                 </DataGrid>
