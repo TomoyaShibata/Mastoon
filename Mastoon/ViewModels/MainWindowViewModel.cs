@@ -19,7 +19,7 @@ namespace Mastoon.ViewModels
         public ReactiveProperty<int> SelectedHomeTimelineStatusIndex { get; set; }
 
         private readonly FavouriteTimelineModel _favouriteTimelineModel = new FavouriteTimelineModel();
-        public ReadOnlyReactiveCollection<Status> FavoriteTimelineStatuses { get; }
+        public ReadOnlyReactiveCollection<Status> FavouriteTimelineStatuses { get; }
         public ReactiveProperty<int> SelectedFavoriteTimelineStatusIndex { get; set; }
 
         private readonly PublimeTimelineModel _publicTimelineModel = new PublimeTimelineModel();
@@ -52,7 +52,7 @@ namespace Mastoon.ViewModels
             this.SetupMastodonClient();
 
             this.HomeTimelineStatuses = this._homeTimelineModel.HomeTimelineStatuses.ToReadOnlyReactiveCollection();
-            this.FavoriteTimelineStatuses =
+            this.FavouriteTimelineStatuses =
                 this._favouriteTimelineModel.FavouriteTimelineStatuses.ToReadOnlyReactiveCollection();
             this.PubliceTimelineStatuses =
                 this._publicTimelineModel.PublicTimelineStatuses.ToReadOnlyReactiveCollection();
