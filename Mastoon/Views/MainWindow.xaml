@@ -195,6 +195,11 @@
                                       Command="{Binding GetPrevPageHomeTimelineCommand}" />
                         </ContextMenu>
                     </DataGrid.ContextMenu>
+                    <DataGrid.InputBindings>
+                        <KeyBinding Modifiers="Alt"
+                                    Key="R"
+                                    Command="{Binding ToggleReblogCommand}" />
+                    </DataGrid.InputBindings>
                 </DataGrid>
             </TabItem>
             <TabItem Header="通知" />
