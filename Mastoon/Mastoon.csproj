@@ -56,6 +56,9 @@
     <Reference Include="Mastonet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Mastonet.1.0.0-beta1\lib\netstandard1.1\Mastonet.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -189,12 +192,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controls\BeautifulImage.cs" />
+    <Compile Include="Controls\BindableRichTextBox.cs" />
     <Compile Include="Controls\BindableTextBlock.cs" />
     <Compile Include="Controls\HyperLinkEx.cs" />
     <Compile Include="Controls\TimelineControl.xaml.cs">
       <DependentUpon>TimelineControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\WebBrowserHelper .cs" />
     <Compile Include="Conveters\DataGridContentConveter.cs" />
+    <Compile Include="Conveters\RtfDocumentConverter.cs" />
     <Compile Include="Conveters\StatusCreatedAtConveter.cs" />
     <Compile Include="Conveters\StatusForgroundConveter.cs" />
     <Compile Include="Models\ReblogModel.cs" />

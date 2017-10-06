@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 using Mastonet;
 using Mastonet.Entities;
 using Mastoon.Models;
-using Microsoft.Practices.ObjectBuilder2;
 using Prism.Commands;
 using Prism.Mvvm;
 using Reactive.Bindings;
@@ -42,6 +40,8 @@ namespace Mastoon.ViewModels
 
         public ReactiveCollection<BindableTextViewModel> Contents { get; set; } =
             new ReactiveCollection<BindableTextViewModel>();
+
+        public ReactiveProperty<string> ContentString { get; } = new ReactiveProperty<string>("ウオー");
 
         public ReactiveCollection<Status> Statuses { get; } = new ReactiveCollection<Status>();
 
@@ -120,22 +120,7 @@ namespace Mastoon.ViewModels
             if (0 < this.SelectedStatusIndex.Value) this.SelectedStatusIndex.Value--;
         }
 
-        private void ShowSelectedStatus()
-        {
-            if (this.SelectedStatus.Value == null) return;
-            this.Contents.Clear();
-
-            var html = this.SelectedStatus.Value.Content;
-            html = html.Replace("<br />", Environment.NewLine);
-            var regex = new Regex("<.*?>");
-            var splitedHtml = regex.Split(html);
-
-            var hoge = new ReactiveCollection<BindableTextViewModel>();
-            splitedHtml.ForEach(s =>
-            {
-                this.Contents.Add(new BindableTextViewModel {Text = new ReactiveProperty<string>(s)});
-            });
-        }
+        private void ShowSelectedStatus() => this.ContentString.Value = this.SelectedStatus.Value.Content;
 
         private void ReblogModelPropetyChanged()
         {
