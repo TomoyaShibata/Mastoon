@@ -1,0 +1,98 @@
+﻿<UserControl x:Class="Mastoon.Controls.TimelineControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Mastoon.Controls"
+             xmlns:conveters="clr-namespace:Mastoon.Conveters"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             x:Name="parent">
+    <UserControl.Resources>
+        <conveters:DataGridContentConveter x:Key="DataGridContentConveter" />
+        <conveters:StatusCreatedAtConveter x:Key="StatusCreatedAtConveter" />
+        <conveters:StatusForgroundConveter x:Key="StatusForgroundConveter" />
+    </UserControl.Resources>
+    <DataGrid DataContext="{Binding ElementName=parent}"
+              AutoGenerateColumns="False"
+              ItemsSource="{Binding ItemsSource}"
+              VirtualizingStackPanel.VirtualizationMode="Recycling"
+              Height="auto"
+              Width="auto"
+              SelectedItem="{Binding SelectedItem.Value, RelativeSource={RelativeSource AncestorType=local:TimelineControl}}"
+              IsReadOnly="True"
+              CanUserSortColumns="False"
+              CanUserAddRows="False"
+              CanUserDeleteRows="False"
+              CanUserReorderColumns="False"
+              CanUserResizeRows="False"
+              Background="#002b36"
+              BorderBrush="#002b36"
+              RowBackground="#073642"
+              VerticalGridLinesBrush="#002b36"
+              HorizontalGridLinesBrush="#002b36">
+        <DataGrid.RowStyle>
+            <Style TargetType="DataGridRow">
+                <Setter Property="Foreground"
+                        Value="{Binding Reblogged, Converter={StaticResource StatusForgroundConveter}}" />
+                <Setter Property="FontWeight"
+                        Value="Bold" />
+            </Style>
+        </DataGrid.RowStyle>
+        <DataGrid.Resources>
+            <Style x:Key="TextStyle"
+                   TargetType="TextBlock">
+                <Setter Property="TextDecorations"
+                        Value="Underline" />
+                <Setter Property="TextTrimming"
+                        Value="CharacterEllipsis" />
+            </Style>
+        </DataGrid.Resources>
+        <DataGrid.Columns>
+            <DataGridTemplateColumn Width="40">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <local:BeautifulImage Margin="6, 0,0,0"
+                                              Width="18"
+                                              Source="{Binding Account.AvatarUrl}"
+                                              HorizontalAlignment="Left" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTextColumn Header="名前"
+                                Width="100"
+                                ElementStyle="{StaticResource TextStyle}"
+                                Binding="{Binding Account.DisplayName}" />
+            <DataGridTextColumn Header="投稿"
+                                Width="300"
+                                ElementStyle="{StaticResource TextStyle}"
+                                Binding="{Binding Content, Converter={StaticResource DataGridContentConveter}}" />
+            <DataGridTextColumn Header="日時"
+                                ElementStyle="{StaticResource TextStyle}"
+                                Width="120"
+                                Binding="{Binding CreatedAt, Converter={StaticResource StatusCreatedAtConveter}}" />
+            <DataGridTextColumn Header="ユーザー名"
+                                ElementStyle="{StaticResource TextStyle}"
+                                Width="100"
+                                Binding="{Binding Account.UserName}" />
+            <DataGridTextColumn Header="発信元"
+                                ElementStyle="{StaticResource TextStyle}"
+                                Width="100"
+                                Binding="{Binding Application.Name}" />
+        </DataGrid.Columns>
+        <DataGrid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="ブーストする"
+                          Command="{Binding ToggleReblogCommand}" />
+                <MenuItem Header="前トゥートを取得する"
+                          Command="{Binding GetPrevPageHomeTimelineCommand}" />
+            </ContextMenu>
+        </DataGrid.ContextMenu>
+        <DataGrid.InputBindings>
+            <KeyBinding Modifiers="Alt"
+                        Key="R"
+                        Command="{Binding ToggleReblogCommand}" />
+        </DataGrid.InputBindings>
+    </DataGrid>
+</UserControl>

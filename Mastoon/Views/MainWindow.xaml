@@ -13,11 +13,10 @@
         mc:Ignorable="d"
         Title="Mastoon"
         Height="700"
-        Width="800" d:DataContext="{d:DesignData }">
+        Width="800"
+        d:DataContext="{d:DesignData }">
     <Window.Resources>
-        <conveters:DataGridContentConveter x:Key="DataGridContentConveter" />
         <conveters:StatusCreatedAtConveter x:Key="StatusCreatedAtConveter" />
-        <conveters:StatusForgroundConveter x:Key="StatusForgroundConveter" />
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Modifiers="Control"
@@ -113,248 +112,20 @@
             </TabControl.InputBindings>
 
             <TabItem Header="ホーム">
-                <DataGrid AutoGenerateColumns="False"
-                          ItemsSource="{Binding HomeTimelineStatuses}"
-                          VirtualizingStackPanel.VirtualizationMode="Recycling"
-                          Height="auto"
-                          Width="auto"
-                          SelectedIndex="{Binding SelectedHomeTimelineStatusIndex.Value, Mode=TwoWay}"
-                          SelectedItem="{Binding SelectedStatus.Value, Mode=TwoWay}"
-                          IsReadOnly="True"
-                          CanUserSortColumns="False"
-                          CanUserAddRows="False"
-                          CanUserDeleteRows="False"
-                          CanUserReorderColumns="False"
-                          CanUserResizeRows="False"
-                          Background="#002b36"
-                          BorderBrush="#002b36"
-                          RowBackground="#073642"
-                          VerticalGridLinesBrush="#002b36"
-                          HorizontalGridLinesBrush="#002b36">
-                    <DataGrid.RowStyle>
-                        <Style TargetType="DataGridRow">
-                            <Setter Property="Foreground"
-                                    Value="{Binding Reblogged, Converter={StaticResource StatusForgroundConveter}}" />
-                        </Style>
-                    </DataGrid.RowStyle>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="" />
-                        <DataGridTextColumn Header="名前"
-                                            Width="100"
-                                            Binding="{Binding Account.DisplayName}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextTrimming"
-                                            Value="CharacterEllipsis" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="投稿"
-                                            Width="300"
-                                            Binding="{Binding Content, Converter={StaticResource DataGridContentConveter}}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextTrimming"
-                                            Value="CharacterEllipsis" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="日時"
-                                            Binding="{Binding CreatedAt, Converter={StaticResource StatusCreatedAtConveter}}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextTrimming"
-                                            Value="CharacterEllipsis" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="ユーザー名"
-                                            Binding="{Binding Account.UserName}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextTrimming"
-                                            Value="CharacterEllipsis" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="発信元"
-                                            Binding="{Binding Application.Name}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextTrimming"
-                                            Value="CharacterEllipsis" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                    </DataGrid.Columns>
-                    <DataGrid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="ブーストする"
-                                      Command="{Binding ToggleReblogCommand}" />
-                            <MenuItem Header="前トゥートを取得する"
-                                      Command="{Binding GetPrevPageHomeTimelineCommand}" />
-                        </ContextMenu>
-                    </DataGrid.ContextMenu>
-                    <DataGrid.InputBindings>
-                        <KeyBinding Modifiers="Alt"
-                                    Key="R"
-                                    Command="{Binding ToggleReblogCommand}" />
-                    </DataGrid.InputBindings>
-                </DataGrid>
+                <controls:TimelineControl ItemsSource="{Binding HomeTimelineStatuses}"
+                                          SelectedItem="{Binding SelectedStatus}" />
             </TabItem>
             <TabItem Header="通知" />
             <TabItem Header="お気に入り">
-                <DataGrid AutoGenerateColumns="False"
-                          ItemsSource="{Binding FavouriteTimelineStatuses}"
-                          VirtualizingStackPanel.VirtualizationMode="Recycling"
-                          Height="auto"
-                          Width="auto"
-                          SelectedIndex="{Binding SelectedFavoriteTimelineStatusIndex.Value, Mode=TwoWay}"
-                          SelectedItem="{Binding SelectedStatus.Value, Mode=TwoWay}"
-                          IsReadOnly="True"
-                          CanUserSortColumns="False"
-                          CanUserAddRows="False"
-                          CanUserDeleteRows="False"
-                          CanUserReorderColumns="False"
-                          CanUserResizeRows="False"
-                          Background="#002b36"
-                          BorderBrush="#002b36"
-                          RowBackground="#af005f"
-                          Foreground="#fff"
-                          VerticalGridLinesBrush="#002b36"
-                          HorizontalGridLinesBrush="#002b36">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="" />
-                        <DataGridTextColumn Header="名前"
-                                            Width="100"
-                                            Binding="{Binding Account.DisplayName}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextTrimming"
-                                            Value="CharacterEllipsis" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="投稿"
-                                            Width="300"
-                                            Binding="{Binding Content, Converter={StaticResource DataGridContentConveter}}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextTrimming"
-                                            Value="CharacterEllipsis" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="日時"
-                                            Binding="{Binding CreatedAt, Converter={StaticResource StatusCreatedAtConveter}}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextTrimming"
-                                            Value="CharacterEllipsis" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="ユーザー名"
-                                            Binding="{Binding Account.UserName}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextTrimming"
-                                            Value="CharacterEllipsis" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="発信元"
-                                            Binding="{Binding Application.Name}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextTrimming"
-                                            Value="CharacterEllipsis" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                <controls:TimelineControl ItemsSource="{Binding FavouriteTimelineStatuses}"
+                                          SelectedItem="{Binding SelectedStatus}" />
             </TabItem>
             <TabItem Header="ローカル" />
             <TabItem Header="連合">
-                <DataGrid Name="DataGrid"
-                          AutoGenerateColumns="False"
-                          ItemsSource="{Binding PubliceTimelineStatuses}"
-                          VirtualizingStackPanel.VirtualizationMode="Recycling"
-                          Height="auto"
-                          Width="auto"
-                          SelectedIndex="{Binding SelectedStatusIndex.Value, Mode=TwoWay}"
-                          SelectedItem="{Binding SelectedStatus.Value, Mode=TwoWay}"
-                          IsReadOnly="True"
-                          CanUserSortColumns="False"
-                          CanUserAddRows="False"
-                          CanUserDeleteRows="False"
-                          CanUserReorderColumns="False"
-                          CanUserResizeRows="False"
-                          Background="#002b36"
-                          BorderBrush="#002b36"
-                          RowBackground="#073642"
-                          Foreground="#fff"
-                          VerticalGridLinesBrush="#002b36"
-                          HorizontalGridLinesBrush="#002b36">
-                    <DataGrid.InputBindings>
-                        <KeyBinding Key="J"
-                                    Command="{Binding SelectedStatusIncrementCommand}" />
-                        <KeyBinding Key="K"
-                                    Command="{Binding SelectedStatusDecrementCommand}" />
-                    </DataGrid.InputBindings>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="" />
-                        <DataGridTextColumn Header="名前"
-                                            Width="100"
-                                            Binding="{Binding Account.DisplayName}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextTrimming"
-                                            Value="CharacterEllipsis" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="投稿"
-                                            Width="300"
-                                            Binding="{Binding Content, Converter={StaticResource DataGridContentConveter}}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextTrimming"
-                                            Value="CharacterEllipsis" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="日時"
-                                            Binding="{Binding CreatedAt, Converter={StaticResource StatusCreatedAtConveter}}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextTrimming"
-                                            Value="CharacterEllipsis" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="ユーザー名"
-                                            Binding="{Binding Account.UserName}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextTrimming"
-                                            Value="CharacterEllipsis" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="発信元"
-                                            Binding="{Binding Application.Name}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextTrimming"
-                                            Value="CharacterEllipsis" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                <controls:TimelineControl ItemsSource="{Binding PubliceTimelineStatuses}"
+                                          SelectedItem="{Binding SelectedStatus}" />
             </TabItem>
         </TabControl>
+
     </DockPanel>
 </Window>
