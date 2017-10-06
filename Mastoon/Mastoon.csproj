@@ -194,12 +194,6 @@
     <Compile Include="Controls\TimelineControl.xaml.cs">
       <DependentUpon>TimelineControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\UserControl1.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\UserControl1.Designer.cs">
-      <DependentUpon>UserControl1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Conveters\DataGridContentConveter.cs" />
     <Compile Include="Conveters\StatusCreatedAtConveter.cs" />
     <Compile Include="Conveters\StatusForgroundConveter.cs" />
