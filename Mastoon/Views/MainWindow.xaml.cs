@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Navigation;
 using mshtml;
 
@@ -28,9 +29,12 @@ namespace Mastoon.Views
             var srcElement = e.srcElement;
             var tagClassName = srcElement.className;
 
-            if (tagClassName == "ellipsis")
+            // TODO:条件模索中
+            // https:// と https:// の開始チェックも必要？
+            if (tagClassName == "ellipsis" || srcElement.innerText.StartsWith("http://"))
             {
                 // TODO:通常リンクをクリックしたときの処理を実装する
+                Process.Start($"http://{srcElement.innerText}");
             }
 
             return false;
