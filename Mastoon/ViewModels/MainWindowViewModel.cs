@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Mastonet;
 using Mastonet.Entities;
 using Mastoon.Models;
@@ -120,7 +123,11 @@ namespace Mastoon.ViewModels
             if (0 < this.SelectedStatusIndex.Value) this.SelectedStatusIndex.Value--;
         }
 
-        private void ShowSelectedStatus() => this.ContentString.Value = this.SelectedStatus.Value.Content;
+        private void ShowSelectedStatus()
+        {
+            this.ContentString.Value = this.SelectedStatus.Value.Content;
+            this.ParseContentHtml(this.ContentString.Value);
+        }
 
         private void ReblogModelPropetyChanged()
         {
@@ -135,6 +142,27 @@ namespace Mastoon.ViewModels
         private void UpdateAllTimelineStatus(Status status)
         {
             this._homeTimelineModel.UpdateStatus(status);
+        }
+
+        // TODO:html構造のContentをパースする処理を作る。完成したらModelに委譲する。
+        private void ParseContentHtml(string content)
+        {
+            // 不要なものを取り外して
+            var normalziedContent = content.Replace("<span class=\"invisible\">", "")
+                .Replace("<span class=\"ellipsis\">", "")
+                .Replace("</span>", "");
+            // 配列にして
+            var r = new Regex(@"<.*?>");
+            var contents = r.Split(normalziedContent).Where(x => !string.IsNullOrEmpty(x)).ToArray();
+
+            var ankerRegex = new Regex("<a href=\"(.*?)\".*?>(.*?)</a>");
+            var matches = ankerRegex.Matches(content);
+
+            var urls = new List<string>();
+            foreach (Match match in matches)
+            {
+                urls.Add(match.Groups[1].Value);
+            }
         }
     }
 }
