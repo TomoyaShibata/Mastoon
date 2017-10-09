@@ -161,7 +161,8 @@ namespace Mastoon.ViewModels
             var urls = new List<string>();
             foreach (Match match in matches)
             {
-                urls.Add(match.Groups[1].Value);
+                var targetText = match.Groups[0].Value;
+                var textUrl = match.Groups[1].Value;
             }
         }
     }
