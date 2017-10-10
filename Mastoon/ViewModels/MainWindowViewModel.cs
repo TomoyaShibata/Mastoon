@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Mastonet;
 using Mastonet.Entities;
+using Mastoon.Entities;
 using Mastoon.Models;
+using Microsoft.Practices.ObjectBuilder2;
 using Prism.Commands;
 using Prism.Mvvm;
 using Reactive.Bindings;
@@ -41,10 +43,8 @@ namespace Mastoon.ViewModels
         public ReactiveCommand SelectedStatusIncrementCommand { get; } = new ReactiveCommand();
         public ReactiveCommand SelectedStatusDecrementCommand { get; } = new ReactiveCommand();
 
-        public ReactiveCollection<BindableTextViewModel> Contents { get; set; } =
-            new ReactiveCollection<BindableTextViewModel>();
-
-        public ReactiveProperty<string> ContentString { get; } = new ReactiveProperty<string>("ウオー");
+        public ReactiveProperty<List<ContentPart>> ContentParts { get; set; } =
+            new ReactiveProperty<List<ContentPart>>();
 
         public ReactiveCollection<Status> Statuses { get; } = new ReactiveCollection<Status>();
 
@@ -123,11 +123,7 @@ namespace Mastoon.ViewModels
             if (0 < this.SelectedStatusIndex.Value) this.SelectedStatusIndex.Value--;
         }
 
-        private void ShowSelectedStatus()
-        {
-            this.ContentString.Value = this.SelectedStatus.Value.Content;
-            this.ParseContentHtml(this.ContentString.Value);
-        }
+        private void ShowSelectedStatus() => this.ParseContentHtml(this.SelectedStatus.Value.Content);
 
         private void ReblogModelPropetyChanged()
         {
@@ -147,23 +143,39 @@ namespace Mastoon.ViewModels
         // TODO:html構造のContentをパースする処理を作る。完成したらModelに委譲する。
         private void ParseContentHtml(string content)
         {
-            // 不要なものを取り外して
-            var normalziedContent = content.Replace("<span class=\"invisible\">", "")
-                .Replace("<span class=\"ellipsis\">", "")
-                .Replace("</span>", "");
-            // 配列にして
-            var r = new Regex(@"<.*?>");
-            var contents = r.Split(normalziedContent).Where(x => !string.IsNullOrEmpty(x)).ToArray();
+            ContentParts.Value = new List<ContentPart>();
 
             var ankerRegex = new Regex("<a href=\"(.*?)\".*?>(.*?)</a>");
             var matches = ankerRegex.Matches(content);
 
-            var urls = new List<string>();
-            foreach (Match match in matches)
+            var urlTexts = matches.Cast<Match>()
+                .ToDictionary(match =>
+                        new Regex(@"<.*?>").Replace(match.Groups[0].Value, ""),
+                    match => match.Groups[1].Value
+                );
+
+            var normalziedContent = content.Replace("<span class=\"invisible\">", "")
+                .Replace("<span class=\"ellipsis\">", "")
+                .Replace("<span class=\"\">", "")
+                .Replace("</span>", "");
+            var contents = new Regex(@"<.*?>").Split(normalziedContent).Where(x => !string.IsNullOrEmpty(x)).ToArray();
+            contents.ForEach(c =>
             {
-                var targetText = match.Groups[0].Value;
-                var textUrl = match.Groups[1].Value;
-            }
+                if (urlTexts.Keys.Contains(c))
+                {
+                    var urlText = urlTexts.Single(u => u.Key == c);
+                    this.ContentParts.Value.Add(new ContentPart
+                    {
+                        Text = urlText.Key,
+                        Type = "url",
+                        Url = urlText.Value
+                    });
+
+                    return;
+                }
+
+                this.ContentParts.Value.Add(new ContentPart {Text = c});
+            });
         }
     }
 }

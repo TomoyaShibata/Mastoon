@@ -20,12 +20,6 @@ namespace Mastoon.Controls
         {
             var richTextBox = (RichTextBox) obj;
             richTextBox.Document = (FlowDocument) args.NewValue;
-
-            var webBrowser = new WebBrowser();
-            webBrowser.NavigateToString("フハハ！");
-
-            richTextBox.SelectAll();
-            richTextBox.Paste();
         }
     }
 }

@@ -81,37 +81,13 @@
                 <Run Text="{Binding SelectedStatus.Value.Account.AccountName}" />
             </TextBlock>
 
-            <WebBrowser x:Name="webbrowser"
-                        DockPanel.Dock="Right"
-                        controls:WebBrowserHelper.Body="{Binding ContentString.Value}" />
-
-            <!--            <controls:BindableRichTextBox DockPanel.Dock="Right"-->
-            <!--                                          Background="#073642"-->
-            <!--                                          Foreground="#fff"-->
-            <!--                                          Document="{Binding ContentString.Value, Converter={StaticResource RtfDocumentConverter} }" />-->
-
-            <!--            <controls:BindableTextBlock x:Name="BindableTextBlock"-->
-            <!--                                        DockPanel.Dock="Right"-->
-            <!--                                        Background="#073642"-->
-            <!--                                        Foreground="#fff"-->
-            <!--                                        TextWrapping="WrapWithOverflow"-->
-            <!--                                        TextSource="{Binding Contents, Mode=TwoWay}">-->
-            <!--                <controls:BindableTextBlock.TextTemplates>-->
-            <!--                    <DataTemplate DataType="{x:Type viewModels:BindableTextViewModel}">-->
-            <!--                        <controls:InlineHolder>-->
-            <!--                            <Run Text="{Binding Text.Value, Mode=TwoWay}" />-->
-            <!--                        </controls:InlineHolder>-->
-            <!--                    </DataTemplate>-->
-            <!---->
-            <!--                    <DataTemplate DataType="{x:Type viewModels:HyperlinkViewModel}">-->
-            <!--                        <controls:InlineHolder>-->
-            <!--                            <controls:HyperlinkEx Uri="{Binding Uri.Value, Mode=TwoWay}">-->
-            <!--                                <Run Text="{Binding Text.Value, Mode=TwoWay}" />-->
-            <!--                            </controls:HyperlinkEx>-->
-            <!--                        </controls:InlineHolder>-->
-            <!--                    </DataTemplate>-->
-            <!--                </controls:BindableTextBlock.TextTemplates>-->
-            <!--            </controls:BindableTextBlock>-->
+            <controls:BindableRichTextBox x:Name="BindableTextBlock"
+                                          DockPanel.Dock="Right"
+                                          Background="#073642"
+                                          Foreground="#fff"
+                                          IsReadOnly="True"
+                                          IsDocumentEnabled="True"
+                                          Document="{Binding ContentParts.Value, Converter={StaticResource RtfDocumentConverter}}" />
         </DockPanel>
 
         <TabControl DockPanel.Dock="Bottom">
