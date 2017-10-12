@@ -86,8 +86,16 @@
                                           Background="#073642"
                                           Foreground="#fff"
                                           IsReadOnly="True"
-                                          IsDocumentEnabled="True"
-                                          Document="{Binding ContentParts.Value, Converter={StaticResource RtfDocumentConverter}}" />
+                                          IsDocumentEnabled="True">
+                <controls:BindableRichTextBox.Document>
+                    <MultiBinding Converter="{StaticResource RtfDocumentConverter}">
+                        <MultiBinding.Bindings>
+                            <Binding Path="ContentParts" />
+                            <Binding Path="ContentParts.Count" />
+                        </MultiBinding.Bindings>
+                    </MultiBinding>
+                </controls:BindableRichTextBox.Document>
+            </controls:BindableRichTextBox>
         </DockPanel>
 
         <TabControl DockPanel.Dock="Bottom">

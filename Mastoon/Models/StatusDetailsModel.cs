@@ -1,21 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Mastoon.Entities;
 using Microsoft.Practices.ObjectBuilder2;
-using Prism.Mvvm;
 
 namespace Mastoon.Models
 {
-    public class StatusDetailsModel : BindableBase
+    public class StatusDetailsModel
     {
-        private List<ContentPart> _contentParts = new List<ContentPart>();
-
-        public List<ContentPart> ContentParts
-        {
-            get => _contentParts;
-            set => SetProperty(ref _contentParts, value);
-        }
+        public ObservableCollection<ContentPart> ContentParts = new ObservableCollection<ContentPart>();
 
         public void SetNewContentParts(string content)
         {
@@ -24,7 +18,7 @@ namespace Mastoon.Models
 
         public void ParseContent(string content)
         {
-            ContentParts = new List<ContentPart>();
+            ContentParts.Clear();
 
             var hyperlinkTargets = GetHyperlinkTargets(content);
             var splitedNormalizedContent = GetSplitedNormalizedContent(content);
@@ -54,7 +48,7 @@ namespace Mastoon.Models
 
             return matches.Cast<Match>()
                 .Select(m => (
-                    target: m.Groups[0].Value,
+                    target: GetNormalizedContent(m.Groups[2].Value),
                     url: m.Groups[1].Value
                     )
                 )
@@ -63,11 +57,14 @@ namespace Mastoon.Models
 
         public static IEnumerable<string> GetSplitedNormalizedContent(string content)
         {
-            var normalizedContent = content.Replace("<span class=\"invisible\">", "")
+            var normalizedContent = GetNormalizedContent(content);
+            return new Regex(@"<.*?>").Split(normalizedContent).Where(x => !string.IsNullOrEmpty(x)).ToArray();
+        }
+
+        public static string GetNormalizedContent(string content)
+            => content.Replace("<span class=\"invisible\">", "")
                 .Replace("<span class=\"ellipsis\">", "")
                 .Replace("<span class=\"\">", "")
                 .Replace("</span>", "");
-            return new Regex(@"<.*?>").Split(normalizedContent).Where(x => !string.IsNullOrEmpty(x)).ToArray();
-        }
     }
 }

@@ -1,24 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Documents;
 using Mastoon.Entities;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace Mastoon.Conveters
 {
-    public class RtfDocumentConverter : IValueConverter
+    public class RtfDocumentConverter : IMultiValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            var contentParts = values[0] as ObservableCollection<ContentPart>;
+            var paragraph = GenerateParagraph(contentParts);
+
             var flowDocument = new FlowDocument();
-            flowDocument.Blocks.Add(this.GenerateParagraph(value as List<ContentPart>));
+            flowDocument.Blocks.Add(paragraph);
+
             return flowDocument;
         }
 
-        private Paragraph GenerateParagraph(List<ContentPart> contentParts)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static Paragraph GenerateParagraph(IEnumerable<ContentPart> contentParts)
         {
             var paragraph = new Paragraph();
             contentParts?.ForEach(c =>
@@ -34,7 +45,7 @@ namespace Mastoon.Conveters
                             Inlines = {new Run(c.Text)},
                             NavigateUri = new Uri(c.Url)
                         };
-                        hyperlink.Click += Hyperlink_Click;
+                        hyperlink.Click += OnClickHyperlink;
                         paragraph.Inlines.Add(hyperlink);
                         break;
                 }
@@ -42,15 +53,10 @@ namespace Mastoon.Conveters
             return paragraph;
         }
 
-        private static void Hyperlink_Click(object sender, RoutedEventArgs e)
+        private static void OnClickHyperlink(object sender, RoutedEventArgs e)
         {
             var hyperlink = (Hyperlink) sender;
             Process.Start(hyperlink.NavigateUri.ToString());
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
         }
     }
 }

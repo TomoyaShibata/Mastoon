@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text.RegularExpressions;
 using Mastonet;
 using Mastonet.Entities;
 using Mastoon.Entities;
 using Mastoon.Models;
-using Microsoft.Practices.ObjectBuilder2;
 using Prism.Commands;
 using Prism.Mvvm;
 using Reactive.Bindings;
@@ -43,9 +40,9 @@ namespace Mastoon.ViewModels
         public ReactiveCommand SelectedStatusIncrementCommand { get; } = new ReactiveCommand();
         public ReactiveCommand SelectedStatusDecrementCommand { get; } = new ReactiveCommand();
 
-        public ReactiveProperty<List<ContentPart>> ContentParts { get; set; } =
-            new ReactiveProperty<List<ContentPart>>();
+        private readonly StatusDetailsModel _statusDetailsModel = new StatusDetailsModel();
 
+        public ObservableCollection<ContentPart> ContentParts { get; set; }
         public ReactiveCollection<Status> Statuses { get; } = new ReactiveCollection<Status>();
 
         public ReactiveProperty<string> PostStatusContent { get; set; }
@@ -85,6 +82,8 @@ namespace Mastoon.ViewModels
             this.PostStatusCommand.Subscribe(this.PostStatus);
 
             this.SelectedStatus.PropertyChanged += (sender, e) => this.ShowSelectedStatus();
+
+            this.ContentParts = this._statusDetailsModel.ContentParts;
         }
 
         private async void SetupMastodonClient()
@@ -123,7 +122,8 @@ namespace Mastoon.ViewModels
             if (0 < this.SelectedStatusIndex.Value) this.SelectedStatusIndex.Value--;
         }
 
-        private void ShowSelectedStatus() => this.ParseContentHtml(this.SelectedStatus.Value.Content);
+        private void ShowSelectedStatus() =>
+            this._statusDetailsModel.SetNewContentParts(this.SelectedStatus.Value.Content);
 
         private void ReblogModelPropetyChanged()
         {
@@ -138,44 +138,6 @@ namespace Mastoon.ViewModels
         private void UpdateAllTimelineStatus(Status status)
         {
             this._homeTimelineModel.UpdateStatus(status);
-        }
-
-        // TODO:html構造のContentをパースする処理を作る。完成したらModelに委譲する。
-        private void ParseContentHtml(string content)
-        {
-            ContentParts.Value = new List<ContentPart>();
-
-            var ankerRegex = new Regex("<a href=\"(.*?)\".*?>(.*?)</a>");
-            var matches = ankerRegex.Matches(content);
-
-            var urlTexts = matches.Cast<Match>()
-                .ToDictionary(match =>
-                        new Regex(@"<.*?>").Replace(match.Groups[0].Value, ""),
-                    match => match.Groups[1].Value
-                );
-
-            var normalziedContent = content.Replace("<span class=\"invisible\">", "")
-                .Replace("<span class=\"ellipsis\">", "")
-                .Replace("<span class=\"\">", "")
-                .Replace("</span>", "");
-            var contents = new Regex(@"<.*?>").Split(normalziedContent).Where(x => !string.IsNullOrEmpty(x)).ToArray();
-            contents.ForEach(c =>
-            {
-                if (urlTexts.Keys.Contains(c))
-                {
-                    var urlText = urlTexts.Single(u => u.Key == c);
-                    this.ContentParts.Value.Add(new ContentPart
-                    {
-                        Text = urlText.Key,
-                        Type = "url",
-                        Url = urlText.Value
-                    });
-
-                    return;
-                }
-
-                this.ContentParts.Value.Add(new ContentPart {Text = c});
-            });
         }
     }
 }
