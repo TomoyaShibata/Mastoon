@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
@@ -15,7 +14,7 @@ namespace Mastoon.Conveters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var contentParts = values[0] as ObservableCollection<ContentPart>;
+            var contentParts = values[0] as IReadOnlyCollection<ContentPart>;
             var paragraph = GenerateParagraph(contentParts);
 
             var flowDocument = new FlowDocument();

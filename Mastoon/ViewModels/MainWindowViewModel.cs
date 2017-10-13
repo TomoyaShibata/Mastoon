@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Mastonet;
 using Mastonet.Entities;
@@ -42,7 +41,7 @@ namespace Mastoon.ViewModels
 
         private readonly StatusDetailsModel _statusDetailsModel = new StatusDetailsModel();
 
-        public ObservableCollection<ContentPart> ContentParts { get; set; }
+        public ReadOnlyReactiveCollection<ContentPart> ContentParts { get; set; }
         public ReactiveCollection<Status> Statuses { get; } = new ReactiveCollection<Status>();
 
         public ReactiveProperty<string> PostStatusContent { get; set; }
