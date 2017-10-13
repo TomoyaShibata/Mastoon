@@ -65,6 +65,7 @@ namespace Mastoon.Models
             => content.Replace("<span class=\"invisible\">", "")
                 .Replace("<span class=\"ellipsis\">", "")
                 .Replace("<span class=\"\">", "")
+                .Replace("<span>", "")
                 .Replace("</span>", "");
     }
 }
