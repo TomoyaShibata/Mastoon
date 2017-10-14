@@ -82,7 +82,7 @@ namespace Mastoon.ViewModels
 
             this.SelectedStatus.PropertyChanged += (sender, e) => this.ShowSelectedStatus();
 
-            this.ContentParts = this._statusDetailsModel.ContentParts;
+            this.ContentParts = this._statusDetailsModel.ContentParts.ToReadOnlyReactiveCollection();
         }
 
         private async void SetupMastodonClient()
