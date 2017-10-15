@@ -29,39 +29,53 @@
             <prism:PopupWindowAction />
         </prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
-    <DockPanel>
-        <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem>
-                <TextBlock Text="Text" />
-            </StatusBarItem>
-        </StatusBar>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0">
+            <TabControl.InputBindings>
+                <KeyBinding Key="S"
+                            Modifiers="Control"
+                            Command="{Binding ToggleFavouriteCommand}" />
+            </TabControl.InputBindings>
 
-        <Grid DockPanel.Dock="Bottom"
-              Width="auto"
-              Height="auto">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="100" />
-            </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0"
-                     Text="{Binding PostStatusContent.Value, Mode=TwoWay}" />
-            <ComboBox Grid.Column="1"
-                      ItemsSource="{Binding VisibilityTexts}"
-                      SelectedIndex="{Binding SelectedVisibilityIndex.Value}" />
-            <Button Grid.Column="2"
-                    Content="投稿"
-                    Command="{Binding PostStatusCommand}" />
-        </Grid>
+            <TabItem Header="ホーム">
+                <controls:TimelineControl ItemsSource="{Binding HomeTimelineStatuses}"
+                                          SelectedItem="{Binding SelectedStatus}" />
+            </TabItem>
+            <TabItem Header="通知" />
+            <TabItem Header="お気に入り">
+                <controls:TimelineControl ItemsSource="{Binding FavouriteTimelineStatuses}"
+                                          SelectedItem="{Binding SelectedStatus}" />
+            </TabItem>
+            <TabItem Header="ローカル" />
+            <TabItem Header="連合">
+                <controls:TimelineControl ItemsSource="{Binding PubliceTimelineStatuses}"
+                                          SelectedItem="{Binding SelectedStatus}" />
+            </TabItem>
+        </TabControl>
 
-        <DockPanel DockPanel.Dock="Bottom"
-                   Height="80">
+        <GridSplitter Grid.Row="1"
+                      Height="5"
+                      HorizontalAlignment="Stretch"
+                      ShowsPreview="True" />
+
+        <DockPanel Grid.Row="2"
+                   Height="Auto"
+                   VerticalAlignment="Stretch">
 
             <Border DockPanel.Dock="Left"
                     Background="#002b36"
                     Padding="10">
                 <Image Width="48"
                        Height="48"
+                       VerticalAlignment="Top"
                        Source="{Binding SelectedStatus.Value.Account.AvatarUrl}" />
             </Border>
 
@@ -98,28 +112,30 @@
             </controls:BindableRichTextBox>
         </DockPanel>
 
-        <TabControl DockPanel.Dock="Bottom">
-            <TabControl.InputBindings>
-                <KeyBinding Key="S"
-                            Modifiers="Control"
-                            Command="{Binding ToggleFavouriteCommand}" />
-            </TabControl.InputBindings>
+        <GridSplitter Grid.Row="3"
+                      Height="5"
+                      HorizontalAlignment="Stretch"
+                      ShowsPreview="True" />
 
-            <TabItem Header="ホーム">
-                <controls:TimelineControl ItemsSource="{Binding HomeTimelineStatuses}"
-                                          SelectedItem="{Binding SelectedStatus}" />
-            </TabItem>
-            <TabItem Header="通知" />
-            <TabItem Header="お気に入り">
-                <controls:TimelineControl ItemsSource="{Binding FavouriteTimelineStatuses}"
-                                          SelectedItem="{Binding SelectedStatus}" />
-            </TabItem>
-            <TabItem Header="ローカル" />
-            <TabItem Header="連合">
-                <controls:TimelineControl ItemsSource="{Binding PubliceTimelineStatuses}"
-                                          SelectedItem="{Binding SelectedStatus}" />
-            </TabItem>
-        </TabControl>
+        <Grid Grid.Row="4"
+              VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0"
+                     Text="{Binding PostStatusContent.Value, Mode=TwoWay}" />
+            <ComboBox Grid.Column="1"
+                      ItemsSource="{Binding VisibilityTexts}"
+                      SelectedIndex="{Binding SelectedVisibilityIndex.Value}" />
+            <Button Grid.Column="2"
+                    Content="投稿"
+                    Command="{Binding PostStatusCommand}" />
+        </Grid>
 
-    </DockPanel>
+        <StatusBar Grid.Row="5">
+            <StatusBarItem Content="sute-tasu" />
+        </StatusBar>
+    </Grid>
 </Window>
