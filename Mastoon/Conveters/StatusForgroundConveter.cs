@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using Mastonet.Entities;
 
 namespace Mastoon.Conveters
 {
@@ -8,8 +9,14 @@ namespace Mastoon.Conveters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var reblogged = (bool) (value ?? false);
-            return reblogged ? "#2aa198" : "#fff";
+            var status = value as Status;
+
+            if (status?.Reblog != null)
+            {
+                return "#2aa198";
+            }
+
+            return "#fff";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>

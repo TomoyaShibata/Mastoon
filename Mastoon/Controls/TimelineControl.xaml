@@ -38,7 +38,7 @@
         <DataGrid.RowStyle>
             <Style TargetType="DataGridRow">
                 <Setter Property="Foreground"
-                        Value="{Binding Reblogged, Converter={StaticResource StatusForgroundConveter}}" />
+                        Value="{Binding Converter={StaticResource StatusForgroundConveter}}" />
                 <Setter Property="FontWeight"
                         Value="Bold" />
             </Style>
