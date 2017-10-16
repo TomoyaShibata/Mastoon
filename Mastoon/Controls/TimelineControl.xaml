@@ -11,7 +11,10 @@
              x:Name="parent">
     <UserControl.Resources>
         <conveters:DataGridContentConveter x:Key="DataGridContentConveter" />
+        <conveters:AvatarImageConverter x:Key="AvatarImageConverter" />
         <conveters:StatusCreatedAtConveter x:Key="StatusCreatedAtConveter" />
+        <conveters:StatusAccountNameConverter x:Key="StatusAccountNameConverter" />
+        <conveters:StatusDisplayNameConverter x:Key="StatusDisplayNameConverter" />
         <conveters:StatusForgroundConveter x:Key="StatusForgroundConveter" />
     </UserControl.Resources>
     <DataGrid DataContext="{Binding ElementName=parent}"
@@ -55,7 +58,7 @@
                     <DataTemplate>
                         <local:BeautifulImage Margin="6, 0,0,0"
                                               Width="18"
-                                              Source="{Binding Account.AvatarUrl}"
+                                              Source="{Binding Converter={StaticResource AvatarImageConverter}}"
                                               HorizontalAlignment="Left" />
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
@@ -63,7 +66,7 @@
             <DataGridTextColumn Header="名前"
                                 Width="100"
                                 ElementStyle="{StaticResource TextStyle}"
-                                Binding="{Binding Account.DisplayName}" />
+                                Binding="{Binding Converter={StaticResource StatusDisplayNameConverter}}" />
             <DataGridTextColumn Header="投稿"
                                 Width="300"
                                 ElementStyle="{StaticResource TextStyle}"
@@ -75,7 +78,7 @@
             <DataGridTextColumn Header="ユーザー名"
                                 ElementStyle="{StaticResource TextStyle}"
                                 Width="100"
-                                Binding="{Binding Account.UserName}" />
+                                Binding="{Binding Converter={StaticResource StatusAccountNameConverter}}" />
             <DataGridTextColumn Header="発信元"
                                 ElementStyle="{StaticResource TextStyle}"
                                 Width="100"

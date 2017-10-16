@@ -17,7 +17,9 @@
         d:DataContext="{d:DesignData }">
     <Window.Resources>
         <conveters:RtfDocumentConverter x:Key="RtfDocumentConverter" />
+        <conveters:AvatarImageConverter x:Key="AvatarImageConverter" />
         <conveters:StatusCreatedAtConveter x:Key="StatusCreatedAtConveter" />
+        <conveters:StatusCreatorNameConveter x:Key="StatusCreatorNameConveter" />
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Modifiers="Control"
@@ -76,7 +78,7 @@
                 <Image Width="48"
                        Height="48"
                        VerticalAlignment="Top"
-                       Source="{Binding SelectedStatus.Value.Account.AvatarUrl}" />
+                       Source="{Binding SelectedStatus.Value, Converter={StaticResource AvatarImageConverter}}" />
             </Border>
 
             <Image DockPanel.Dock="Right"
@@ -89,11 +91,8 @@
 
             <TextBlock DockPanel.Dock="Top"
                        Background="#002b36"
-                       Foreground="#fff">
-                <Run Text="{Binding SelectedStatus.Value.Account.DisplayName}" />
-                /
-                <Run Text="{Binding SelectedStatus.Value.Account.AccountName}" />
-            </TextBlock>
+                       Foreground="#fff"
+                       Text="{Binding SelectedStatus.Value, Converter={StaticResource StatusCreatorNameConveter}}" />
 
             <controls:BindableRichTextBox x:Name="BindableTextBlock"
                                           DockPanel.Dock="Right"

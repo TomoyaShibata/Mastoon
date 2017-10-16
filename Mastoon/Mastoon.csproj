@@ -199,9 +199,13 @@
     <Compile Include="Controls\TimelineControl.xaml.cs">
       <DependentUpon>TimelineControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Conveters\AvatarImageConverter.cs" />
     <Compile Include="Conveters\DataGridContentConveter.cs" />
     <Compile Include="Conveters\RtfDocumentConverter.cs" />
+    <Compile Include="Conveters\StatusDisplayNameConverter.cs" />
+    <Compile Include="Conveters\StatusAccountNameConverter.cs" />
     <Compile Include="Conveters\StatusCreatedAtConveter.cs" />
+    <Compile Include="Conveters\StatusCreatorNameConveter.cs" />
     <Compile Include="Conveters\StatusForgroundConveter.cs" />
     <Compile Include="Models\ReblogModel.cs" />
     <Compile Include="Models\FavouriteTimelineModel.cs" />
