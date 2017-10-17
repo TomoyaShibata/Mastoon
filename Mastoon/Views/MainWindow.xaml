@@ -68,11 +68,13 @@
                       HorizontalAlignment="Stretch"
                       ShowsPreview="True" />
 
-        <DockPanel Grid.Row="2"
-                   Height="Auto"
-                   VerticalAlignment="Stretch">
+        <Grid Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-            <Border DockPanel.Dock="Left"
+            <Border Grid.Column="0"
                     Background="#002b36"
                     Padding="10">
                 <Image Width="48"
@@ -81,35 +83,50 @@
                        Source="{Binding SelectedStatus.Value, Converter={StaticResource AvatarImageConverter}}" />
             </Border>
 
-            <Image DockPanel.Dock="Right"
-                   Source="{Binding SelectedStatus.Value.MediaAttachments[0].PreviewUrl}" />
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-            <TextBlock DockPanel.Dock="Right"
-                       Background="#002b36"
-                       Foreground="#fff"
-                       Text="{Binding SelectedStatus.Value.CreatedAt, Converter={StaticResource StatusCreatedAtConveter}}" />
+                <TextBlock Grid.Column="0"
+                           Grid.Row="0"
+                           Background="#002b36"
+                           Foreground="#fff"
+                           Text="{Binding SelectedStatus.Value, Converter={StaticResource StatusCreatorNameConveter}}" />
 
-            <TextBlock DockPanel.Dock="Top"
-                       Background="#002b36"
-                       Foreground="#fff"
-                       Text="{Binding SelectedStatus.Value, Converter={StaticResource StatusCreatorNameConveter}}" />
+                <controls:BindableRichTextBox Grid.Column="0"
+                                              Grid.ColumnSpan="2"
+                                              Grid.Row="1"
+                                              x:Name="BindableTextBlock"
+                                              Background="#073642"
+                                              Foreground="#fff"
+                                              IsReadOnly="True"
+                                              IsDocumentEnabled="True">
+                    <controls:BindableRichTextBox.Document>
+                        <MultiBinding Converter="{StaticResource RtfDocumentConverter}">
+                            <MultiBinding.Bindings>
+                                <Binding Path="ContentParts" />
+                                <Binding Path="ContentParts.Count" />
+                            </MultiBinding.Bindings>
+                        </MultiBinding>
+                    </controls:BindableRichTextBox.Document>
+                </controls:BindableRichTextBox>
 
-            <controls:BindableRichTextBox x:Name="BindableTextBlock"
-                                          DockPanel.Dock="Right"
-                                          Background="#073642"
-                                          Foreground="#fff"
-                                          IsReadOnly="True"
-                                          IsDocumentEnabled="True">
-                <controls:BindableRichTextBox.Document>
-                    <MultiBinding Converter="{StaticResource RtfDocumentConverter}">
-                        <MultiBinding.Bindings>
-                            <Binding Path="ContentParts" />
-                            <Binding Path="ContentParts.Count" />
-                        </MultiBinding.Bindings>
-                    </MultiBinding>
-                </controls:BindableRichTextBox.Document>
-            </controls:BindableRichTextBox>
-        </DockPanel>
+                <TextBlock Grid.Column="1"
+                           Grid.Row="0"
+                           Background="#002b36"
+                           Foreground="#fff"
+                           Text="{Binding SelectedStatus.Value.CreatedAt, Converter={StaticResource StatusCreatedAtConveter}}" />
+
+            </Grid>
+
+        </Grid>
 
         <GridSplitter Grid.Row="3"
                       Height="5"
