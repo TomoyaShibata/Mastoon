@@ -39,15 +39,24 @@
             <Style TargetType="DataGridRow">
                 <Setter Property="Foreground"
                         Value="{Binding Converter={StaticResource StatusForgroundConveter}}" />
-                <Setter Property="FontWeight"
-                        Value="Bold" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsRead, Mode=OneWay}" Value="false">
+                        <Setter Property="FontWeight"
+                                Value="Bold" />
+                    </DataTrigger>
+                </Style.Triggers>
             </Style>
         </DataGrid.RowStyle>
         <DataGrid.Resources>
             <Style x:Key="TextStyle"
                    TargetType="TextBlock">
-                <Setter Property="TextDecorations"
-                        Value="Underline" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsRead}"
+                                 Value="False">
+                        <Setter Property="TextDecorations"
+                                Value="Underline" />
+                    </DataTrigger>
+                </Style.Triggers>
                 <Setter Property="TextTrimming"
                         Value="CharacterEllipsis" />
             </Style>

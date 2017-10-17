@@ -207,6 +207,7 @@
     <Compile Include="Conveters\StatusCreatedAtConveter.cs" />
     <Compile Include="Conveters\StatusCreatorNameConveter.cs" />
     <Compile Include="Conveters\StatusForgroundConveter.cs" />
+    <Compile Include="Entities\StatusWithMeta.cs" />
     <Compile Include="Models\ReblogModel.cs" />
     <Compile Include="Models\FavouriteTimelineModel.cs" />
     <Compile Include="Models\HomeTimelineModel.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="Models\StatusDetailsModel.cs" />
     <Compile Include="Models\StatusPostModel.cs" />
     <Compile Include="Entities\ContentPart.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

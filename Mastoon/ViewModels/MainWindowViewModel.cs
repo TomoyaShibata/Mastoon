@@ -14,7 +14,7 @@ namespace Mastoon.ViewModels
     public class MainWindowViewModel : BindableBase
     {
         private readonly HomeTimelineModel _homeTimelineModel = new HomeTimelineModel();
-        public ReadOnlyReactiveCollection<Status> HomeTimelineStatuses { get; }
+        public ReadOnlyReactiveCollection<StatusWithMeta> HomeTimelineStatuses { get; }
         public ReactiveProperty<int> SelectedHomeTimelineStatusIndex { get; set; }
 
         private readonly FavouriteTimelineModel _favouriteTimelineModel = new FavouriteTimelineModel();
@@ -25,7 +25,7 @@ namespace Mastoon.ViewModels
         public ReadOnlyReactiveCollection<Status> PubliceTimelineStatuses { get; }
         public ReactiveProperty<int> SelectedStatusIndex { get; set; } = new ReactiveProperty<int>();
 
-        public ReactiveProperty<Status> SelectedStatus { get; set; } = new ReactiveProperty<Status>();
+        public ReactiveProperty<StatusWithMeta> SelectedStatus { get; set; } = new ReactiveProperty<StatusWithMeta>();
 
         private readonly ReblogModel _reblogModel = new ReblogModel();
 
@@ -56,6 +56,7 @@ namespace Mastoon.ViewModels
             this.SetupMastodonClient();
 
             this.HomeTimelineStatuses = this._homeTimelineModel.HomeTimelineStatuses.ToReadOnlyReactiveCollection();
+
             this.FavouriteTimelineStatuses =
                 this._favouriteTimelineModel.FavouriteTimelineStatuses.ToReadOnlyReactiveCollection();
             this.PubliceTimelineStatuses =
@@ -121,8 +122,11 @@ namespace Mastoon.ViewModels
             if (0 < this.SelectedStatusIndex.Value) this.SelectedStatusIndex.Value--;
         }
 
-        private void ShowSelectedStatus() =>
+        private void ShowSelectedStatus()
+        {
+            this.SelectedStatus.Value.IsRead = true;
             this._statusDetailsModel.SetNewContentParts(this.SelectedStatus.Value.Content);
+        }
 
         private void ReblogModelPropetyChanged()
         {
